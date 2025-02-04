@@ -4,4 +4,4 @@
 #### Proposal:
 We are planning on creating a feature rich note taking app that supports LaTeX, drawing, and other forms of note taking. 
 
-We are first going to get a basic skeleton of the app that allows for basic navigation and functionality. Everyone is pretty much a feature engineer and will be implement features based on the rankings that we gave.
+We are first going to get a basic skeleton of the app that allows for basic navigation and functionality. This is so that everyone has a foundation to work on and to prevent conflicts at the root. We have created a doc with all of the features and ranked each one based on importance. Everyone is pretty much going to be a feature engineer and will be implement features based on the rankings. 
