@@ -11,7 +11,10 @@ Project Members:
 
 Prerequisite:
 - install npm & node.js 
-- run "npm install" in '/Electron', '/Frontend', and '/Nuzz' to install npm packages
+- run "npm run update"
 
 Start up App:
 - *Within '/Nuzz'* "npm run dev"
+
+Update Packages in all directories:
+- run "npm run update"
