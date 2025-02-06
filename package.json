@@ -1,0 +1,13 @@
+{
+  "name": "nuzz",
+  "version": "1.0.0",
+  "description": "This is a feature rich note taking app made for all users.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently \"cd frontend && npm run dev\" \"cd electron && npm start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

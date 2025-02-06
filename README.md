@@ -7,3 +7,7 @@ Project Members:
 - Perry Shu
 - Colsen Murray
 - Adam Abdelrahman
+
+
+Start up App:
+- *Within '/Nuzz'* "npm run dev"
