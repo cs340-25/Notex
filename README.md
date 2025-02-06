@@ -9,5 +9,9 @@ Project Members:
 - Adam Abdelrahman
 
 
+Prerequisite:
+- install npm & node.js 
+- run "npm install" in '/Electron' and '/Frontend' to install npm packages
+
 Start up App:
 - *Within '/Nuzz'* "npm run dev"
