@@ -1,0 +1,70 @@
+.SidebarCont{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    width: 10em;
+    min-width: 150px;
+    background-color: var(--SecondaryColor);
+    color: white;
+    border-right: 1px solid var(--PrimaryTextColor);
+    position: relative;
+}   
+
+#ChevronIcon{
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    svg{
+        width: 1.5em;
+        height: 1.5em;
+        fill: var(--PrimaryTextColor);
+    }
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+    &:active{
+        transform: scale(0.9);
+    }
+}
+
+
+#AddCircleIcon{
+    position: absolute;
+    top: 2.5em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: var(--TertiaryColor);
+
+    svg{
+        width: 3.5em;
+        height: 3.5em;
+    }
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+    &:active{
+        transform: scale(0.9);
+    }
+}
+
+#PrimaryTabs{
+    height: 5em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10em 0 0 0;
+}
+
+#SecondaryTabs{
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 0 0 1em 0;
+}
