@@ -3,10 +3,12 @@
 #### Team Name for Github:
 #### Team Members: Ashton Dy, Perry Shu, Porter Dosch, Colsen Murray, Adam Abdelrahman
 
+
 #### Introduction:
 We are planning on creating a feature rich note taking app that supports LaTeX, drawing, and other forms of note taking. 
 
 We are first going to get a basic skeleton of the app that allows for basic navigation and functionality. This is so that everyone has a foundation to work on and to prevent conflicts at the root. We have created a Google document with all of the features and ranked each one based on importance. Everyone is pretty much going to be a feature engineer and will implement features based on the rankings. This way, should we run into issues with a feature, it won't slow the whole development process.
+
 
 ##### Motivation:
 Place project in market context:
@@ -31,6 +33,7 @@ Underlying problem to solve or experience:
 - Apps that offer this level of functionality are blocked off by a steep learning curve of how to even get started. 
 Note apps that specialize in a certain context only offer features related to that context, not a uniform solution for different needs
 
+
 ##### Market context:
 Proposed solution:
 - We are looking to offer an all-in-one note taking app for all users no matter their field or expertise. Our app will provide easy to use tools and features to enhance productivity and usability. It will be built and deployed as a desktop application to begin with.
@@ -41,12 +44,14 @@ How will the customer benefit?
 Have we tested the idea on anyone?
 - We haven’t tested the idea on anyone yet, but as members of the group we are attempting to deliver a product to, we are creating features that ourselves or peers would use. We have direct input from one target demographic, which gives the same kind of input as testing.
 
+
 ##### Measures of Success
 How will we know if customers got the benefits we want to provide?
 - We would provide polling and user responses to gather data on this.
 
 What are customer-centric measures of success?
 - User retention of the app and general user satisfaction. If the app provides the necessary utilities with a degree of ease of use, users will tend to stay with the app after downloading it.
+
 
 ##### Technology:
 Main components of system? What do they do?
@@ -68,6 +73,7 @@ What will we use to build the system?
 
 Available tools we could leverage?
 
+
 ##### Team Skills:
 Has anyone built something like this before?
 - Nobody on the team has developed a similar project. We have used a similar toolset, though.
@@ -82,6 +88,7 @@ What are the team member roles?
 Fixed or rotating?
 - Fixed, but each member will have chances to learn other parts of the project, especially if they finish their portion quickly
 
+
 ##### Project Management
 Schedule:
 
@@ -95,7 +102,7 @@ Tentative week-by-week schedule for tasks and deadlines
 - N/A
 
 
-Constraints:
+##### Constraints:
 
 Regulatory or legal Constraints
 - App development standard practices
