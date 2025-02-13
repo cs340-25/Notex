@@ -11,12 +11,15 @@ We are first going to get a basic skeleton of the app that allows for basic navi
 ##### Motivation:
 Place project in market context:
 - Other products like OneNote and Notion exist, and have a drawing feature. However, our app will interface with a large language model in order to generate quizzes and content summaries for the user, in addition to creating templates for notes based on a course syllabus. 
+
 Is it novel? what need does it fill:
 - None of the features of this app will be novel. There are plenty of apps that will let you draw, or take notes in LateX. However, the novelty of our app comes from the centralization of all of the features along with the ease of use.
+
 Team member backgrounds:
 - Two of our team have development experience with frontend and backend development on similar projects.
 - One of our team members has experience in computer vision related projects.
 - The other two members have development experience with backend programming languages such as C and C++
+
 Any additional information needed:
 
 
