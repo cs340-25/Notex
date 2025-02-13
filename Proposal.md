@@ -83,7 +83,7 @@ Is completion feasible?
 When and how often will we meet? Face to face?
 - Face to face twice per week
 Tentative week-by-week schedule for tasks and deadlines
-- 
+- N/A
 
 
 Constraints:
