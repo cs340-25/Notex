@@ -99,7 +99,35 @@ When and how often will we meet? Face to face?
 - Face to face twice per week
 
 Tentative week-by-week schedule for tasks and deadlines
-- N/A
+
+Week 1
+- implement basic writing and saving
+- allow users to create and open notes
+- save files locally 
+
+Week 2
+- add options to open, delete, rename files
+- autosave feature
+- further improve UI/UX
+
+Week 3
+- add a way to use LaTeX inline
+- add a way to draw on notes
+
+Week 4
+- set up a cloud storage system
+- figure out how we want to store notes (sync local and cloud? one or the other)
+- ensure there's secure authentication for accessing notes
+
+Week 5
+- implement user authentication (maybe a userID system or email?)
+- possibly explore mobile/web compatibility across different systems or devices
+- ensure there's no conflict if a file is edited on different devices at once
+
+Week 6
+- continue to explore mobile/other device compatibility
+- final UI optimizations based on feedback
+- conduct testing, fix bugs, and finalize docs
 
 
 #### Constraints:
