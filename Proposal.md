@@ -1,6 +1,6 @@
-### Title: Nuzz
-#### Team Name: NUZZ LLC
-#### Team Name for Github:
+### Title: Notex
+#### Team Name: Notex LLC
+#### Team Name for Github: Notex LLC
 #### Team Members: Ashton Dy, Perry Shu, Porter Dosch, Colsen Murray, Adam Abdelrahman
 
 
