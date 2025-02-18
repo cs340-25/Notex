@@ -1,11 +1,29 @@
 .SidebarTabCont{
-    margin: 0;
-    padding: 0;
-    width: 100%;
+    margin: .25em 0;
+    padding: 0 1em;
+    width: calc(85% - 2em);
     text-align: start;
+    display: flex;
+    align-items: center;
+    transition: .2s ease-in;
+    border-radius: 0.5em;
+    &:hover{
+        background-color: var(--PrimaryColor);
+        cursor: pointer;
+    }
+    &:active{
+        background-color: var(--BackgroundColor);
+    }
 }
 
 .Title{
     margin: 0;
-    padding: 0;
+    padding: 0.25em 0.5em;
+    font-weight: 400;
+}
+
+.IconCont{
+    display: grid;
+    place-items: center;
+    transform: scale(1.1);
 }

@@ -7,6 +7,27 @@
     min-width: 150px;
     background-color: var(--SecondaryColor);
     color: white;
+    position: relative;
+}
 
-
+#ChevronIcon{
+    position: absolute;
+    top: .5em;
+    left: .75em;
+    svg{
+        width: 1.5em;
+        height: 1.5em;
+        fill: var(--PrimaryTextColor);
+    }
+    &:hover{
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+    &:active{
+        transform: scale(0.9);
+    }
+}
+.none{
+    transition: .2s ease-in;
+    display: none;
 }

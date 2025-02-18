@@ -1,9 +1,17 @@
 import styles from './SidebarTab.module.scss';
+import { icons } from '../../../src/assets/Icons/Icons';
+function SidebarTab({ Title, fill }) {
+    
+    const Icon = ()=>{
+        return icons[Title] || null;
+    }
 
-function SidebarTab({ Title, Icon }) {
     return (
         <div className={styles.SidebarTabCont}>
-            <p className={styles.Title}>{Title}</p>
+            <div className={styles.IconCont}>
+                <Icon/>
+            </div>
+            <h4 className={styles.Title}>{Title}</h4>
         </div>
     );
 }

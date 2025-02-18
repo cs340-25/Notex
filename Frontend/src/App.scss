@@ -19,3 +19,16 @@ body {
   align-items: center;
   margin: 0;
 }
+
+.SideColumn{
+  height: 100vh;
+  width: 10em;
+  display: flex;
+  flex-direction: row;
+  transition: .2s linear;
+}
+
+.SCClosed{
+  transform: translateX(-10em);
+  // filter: opacity(.5);
+}
