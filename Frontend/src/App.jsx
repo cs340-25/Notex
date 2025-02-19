@@ -1,34 +1,22 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, useContext } from 'react'
+import Folderbar from '../Components/Folderbar/Folderbar'
+import Sidebar from '../Components/Sidebar/Sidebar'
+import Workspace from '../Components/Workspace/Workspace'
+import { WorkspaceContext } from './Providers/WorkspaceProvider'
+import './App.scss'
+import { use } from 'react'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const {WorkspaceState, setWorkspaceState} = useContext(WorkspaceContext);
+  const [SidebarOpen, setSidebarOpen] = useState(true);
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div id="App">
+      <div className={`SideColumn ${SidebarOpen ? "" : "SCClosed"}`}>
+        <Sidebar SidebarOpen={SidebarOpen} setSidebarOpen={setSidebarOpen}/>
+        <Folderbar SidebarOpen={SidebarOpen} setSidebarOpen={setSidebarOpen}/>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <Workspace />
+    </div>
   )
 }
 

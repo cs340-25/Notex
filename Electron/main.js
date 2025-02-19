@@ -8,8 +8,8 @@ app.whenReady().then(() => {
 
     // Create the browser window.
     mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1000,
+        height: 800,
         webPreferences: {
         nodeIntegration: true,
         preload: path.join(__dirname, 'preload.js')
@@ -23,6 +23,7 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     })
 
+    mainWindow.setMenu(null);
     // Load Vite React frontend
     mainWindow.loadURL("http://localhost:5173"); 
 });
