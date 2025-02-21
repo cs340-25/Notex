@@ -1,0 +1,18 @@
+.NotesEditor__notes-container {
+    display: flex;
+    height: 100vh;
+}
+  
+.NotesEditor__canvas {
+    flex: 1;
+    background: #f5f5f5;
+    overflow: hidden;
+}
+
+.NotesEditor__markdown-editor {
+    flex: 2;
+    padding: 20px;
+    background: white;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+}
