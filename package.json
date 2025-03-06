@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently \"cd Frontend && npm run dev\" \"cd Electron && npm start\"",
-    "update": "\"npm install && cd Frontend && npm install && cd ../Electron && npm install\""
+    "update": "npm install && cd Frontend && npm install && cd ../Electron && npm install"
   },
   "keywords": [],
   "author": "",
