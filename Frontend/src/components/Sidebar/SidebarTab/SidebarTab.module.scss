@@ -1,7 +1,7 @@
 .SidebarTabCont{
     margin: .25em 0;
-    padding: 0 1em;
-    width: calc(85% - 2em);
+    padding-left: 0.5em;
+    width: calc(80%);
     text-align: start;
     display: flex;
     align-items: center;
@@ -27,3 +27,4 @@
     place-items: center;
     transform: scale(1.1);
 }
+
