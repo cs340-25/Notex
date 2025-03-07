@@ -1,0 +1,61 @@
+{
+    "Folders" : [
+        {
+            "id": 1,
+            "name": "Folder 1",
+            "folders":[
+                {
+                    "id": 3,
+                    "name": "Folder 3",
+                    "files": [
+                        {
+                            "id": 5,
+                            "name": "File 5",
+                            "type": "txt",
+                            "size": "1.2 MB"
+                        },
+                        {
+                            "id": 6,
+                            "name": "File 6",
+                            "type": "pdf",
+                            "size": "2.2 MB"
+                        }
+                    ]
+                }
+            ],
+            "files": [
+                {
+                    "id": 1,
+                    "name": "File 1",
+                    "type": "txt",
+                    "size": "1.2 MB"
+                },
+                {
+                    "id": 2,
+                    "name": "File 2",
+                    "type": "pdf",
+                    "size": "2.2 MB"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Folder 2",
+            "files": [
+                {
+                    "id": 3,
+                    "name": "File 3",
+                    "type": "txt",
+                    "size": "1.2 MB"
+                },
+                {
+                    "id": 4,
+                    "name": "File 4",
+                    "type": "pdf",
+                    "size": "2.2 MB"
+                }
+            ]
+        }
+    ]
+
+}
