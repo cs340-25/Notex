@@ -35,3 +35,8 @@ body {
   transform: translateX(-10em);
   // filter: opacity(.5);
 }
+
+.Workspace {
+  height: 100vh;
+  width: calc(100vw - 10em);
+}

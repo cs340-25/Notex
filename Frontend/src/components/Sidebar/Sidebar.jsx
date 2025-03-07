@@ -2,7 +2,7 @@ import styles from './Sidebar.module.scss';
 import { BsChevronBarLeft } from "react-icons/bs";
 import { GrAddCircle } from "react-icons/gr";
 import SidebarTab from './SidebarTab/SidebarTab';
-import { useState } from 'react';
+import { Link } from 'react-router-dom'
 function Sidebar({SidebarOpen, setSidebarOpen}) {
   function handleSidebarChange(){
     setSidebarOpen((prev)=> !SidebarOpen);
@@ -18,14 +18,26 @@ function Sidebar({SidebarOpen, setSidebarOpen}) {
 
 
       <div id={styles.PrimaryTabs}>
-        <SidebarTab Title={"Home"} fill={false}/>
-        <SidebarTab Title={"Favorites"} fill={false}/>
-        <SidebarTab Title={"Search"} fill={false}/>
-        <SidebarTab Title={"Notes"} fill={false}/>
+        <Link to="/">
+          <SidebarTab Title={"Home"} fill={false} />
+        </Link>
+        <Link to="/Favorites"> 
+          <SidebarTab Title={"Favorites"} fill={false}/>
+        </Link>
+        <Link to="/Search">
+          <SidebarTab Title={"Search"} fill={false}/>
+        </Link>
+        <Link to="/NoteEditor">
+          <SidebarTab Title={"Notes"} fill={false}/>
+        </Link>
       </div>
       <div id={styles.SecondaryTabs}>
-        <SidebarTab Title={"Settings"} fill={false}/>
-        <SidebarTab Title={"Profile"} fill={false}/>
+        <Link to="/Settings">
+          <SidebarTab Title={"Settings"} fill={false}/>
+        </Link>
+        <Link to="/Profile">
+          <SidebarTab Title={"Profile"} fill={false}/>
+        </Link>
       </div>
     </div>
   );
