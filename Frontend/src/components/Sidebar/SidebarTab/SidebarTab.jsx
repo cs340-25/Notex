@@ -1,5 +1,5 @@
 import styles from './SidebarTab.module.scss';
-import { icons } from '../../../src/assets/Icons/Icons';
+import { icons } from '../../../assets/Icons/Icons';
 function SidebarTab({ Title, fill }) {
     
     const Icon = ()=>{
