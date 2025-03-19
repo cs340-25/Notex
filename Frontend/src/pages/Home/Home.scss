@@ -40,23 +40,22 @@
 }
 .GridContainer {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); // Default: 4 columns
+    grid-template-columns: repeat(4, 1fr); 
     grid-gap: 20px;
     width: 90%;
     max-width: 800px;
     margin-top: 20px;
 }
 
-/* Reduce columns on smaller screens */
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .GridContainer {
-        grid-template-columns: repeat(2, 1fr); // 2 columns for tablets
+        grid-template-columns: repeat(2, 1fr); 
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 500px) {
     .GridContainer {
-        grid-template-columns: repeat(1, 1fr); // 1 column for phones
+        grid-template-columns: repeat(1, 1fr); 
     }
 }
 .GridItem {
