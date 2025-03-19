@@ -1,4 +1,79 @@
-.HomeCont{
+.HomeCont {
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    padding: 20px;
+    background-color: var(--BackgroundColor);
+    color: var(--PrimaryTextColor);
+    overflow-x: auto;  
 }
+
+.HomeHeader {
+    text-align: center;
+    margin-bottom: 20px;
+
+    h1 {
+        color: var(--PrimaryTextColor);
+    }
+}
+
+.Menu {
+    margin-top: 10px;
+    
+    button {
+        margin: 5px;
+        padding: 10px 15px;
+        border: none;
+        background-color: var(--TertiaryColor);
+        color: var(--PrimaryTextColor);
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s ease;
+    
+        &:hover {
+            background-color: rgba(123, 30, 30, 0.8); 
+        }
+    }
+}
+.GridContainer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); // Default: 4 columns
+    grid-gap: 20px;
+    width: 90%;
+    max-width: 800px;
+    margin-top: 20px;
+}
+
+/* Reduce columns on smaller screens */
+@media (max-width: 768px) {
+    .GridContainer {
+        grid-template-columns: repeat(2, 1fr); // 2 columns for tablets
+    }
+}
+
+@media (max-width: 480px) {
+    .GridContainer {
+        grid-template-columns: repeat(1, 1fr); // 1 column for phones
+    }
+}
+.GridItem {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: var(--SecondaryColor);
+    border: 2px solid var(--PrimaryColor);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+
+    &:hover{
+        cursor:pointer;
+        background-color: var(--TertiaryColorDark);
+
+    }
+}
+
