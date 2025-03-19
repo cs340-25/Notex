@@ -1,13 +1,13 @@
 .HomeCont {
-    width: 100%;
-    min-height: 100vh;
+    width: 90%;
+    height: 80%;  // Ensure full height of the screen
     display: flex;
     flex-direction: column;
-    align-items: flex-start; 
+    align-items: center;
     padding: 20px;
     background-color: var(--BackgroundColor);
     color: var(--PrimaryTextColor);
-    overflow-x: auto;  
+    overflow: hidden;  // Disable scrolling for the Home container
 }
 
 .HomeHeader {
@@ -38,26 +38,23 @@
         }
     }
 }
+
 .GridContainer {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); 
+    grid-template-columns: repeat(3, 1fr);  
     grid-gap: 20px;
-    width: 90%;
-    max-width: 800px;
+    width: 80%;
+    height: calc(100vh - 150px); //-150px header and menu total 
+    max-width: 100%;
     margin-top: 20px;
+
+    @media (max-width: 800px) {
+        grid-template-columns: repeat(2, 1fr);  
+
+    }
+
 }
 
-@media (max-width: 800px) {
-    .GridContainer {
-        grid-template-columns: repeat(2, 1fr); 
-    }
-}
-
-@media (max-width: 500px) {
-    .GridContainer {
-        grid-template-columns: repeat(1, 1fr); 
-    }
-}
 .GridItem {
     width: 100%;
     aspect-ratio: 1 / 1;
@@ -69,10 +66,8 @@
     justify-content: center;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 
-    &:hover{
-        cursor:pointer;
+    &:hover {
+        cursor: pointer;
         background-color: var(--TertiaryColorDark);
-
     }
 }
-
