@@ -1,4 +1,4 @@
-const { contextBridge } = require('electron')
+const { contextBridge, ipcRenderer } = require('electron')
 
 contextBridge.exposeInMainWorld('versions', {
   node: () => process.versions.node,
@@ -7,3 +7,10 @@ contextBridge.exposeInMainWorld('versions', {
   ping: () => ipcRenderer.invoke('ping')
   // we can also expose variables, not just functions
 })
+
+contextBridge.exposeInMainWorld("electron", {
+  ipcRenderer: {
+    send: (channel, data) => ipcRenderer.send(channel, data),
+    on: (channel, callback) => ipcRenderer.on(channel, (event, ...args) => callback(...args)),
+  },
+});
