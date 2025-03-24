@@ -1,4 +1,4 @@
-const { app, BrowserWindow,ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
 let mainWindow;
@@ -10,8 +10,11 @@ app.whenReady().then(() => {
     mainWindow = new BrowserWindow({
         width: 1000,
         height: 800,
+        frame: false,
         webPreferences: {
-        nodeIntegration: true,
+        nodeIntegration: false,
+        contextIsolation: true,
+        enableRemoteModule: false,
         preload: path.join(__dirname, 'preload.js')
         },
     });
@@ -32,4 +35,18 @@ app.on("window-all-closed", () => {
     if (process.platform !== "darwin") {
         app.quit();
     }
+});
+
+
+ipcMain.on("minimize", () => {
+  BrowserWindow.getFocusedWindow().minimize();
+});
+
+ipcMain.on("maximize", () => {
+  const win = BrowserWindow.getFocusedWindow();
+  win.isMaximized() ? win.restore() : win.maximize();
+});
+
+ipcMain.on("close", () => {
+  BrowserWindow.getFocusedWindow().close();
 });
