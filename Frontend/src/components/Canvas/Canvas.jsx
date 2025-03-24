@@ -1,10 +1,23 @@
-import styles from './Canvas.module.scss';
+import React from "react";
+import CanvasItem from "../CanvasItem/CanvasItem";
+import "./Canvas.module.scss";
 
-function Canvas(){
-    return ( <div className={styles.CanvasCont}>
-        Canvas
+const Canvas = ({ canvasItems, setCanvasItems }) => {
+  const addItem = () => {
+    const newItem = { id: canvasItems.length + 1, text: "New Item" };
+    setCanvasItems([...canvasItems, newItem]);
+  };
+
+  return (
+    <div className="canvas">
+      <button onClick={addItem} className="add-item-btn">
+        Add Item
+      </button>
+      {canvasItems.map((item) => (
+        <CanvasItem key={item.id} item={item} />
+      ))}
     </div>
-    );
-}
+  );
+};
 
 export default Canvas;

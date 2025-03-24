@@ -1,12 +1,15 @@
-import styles from './MarkdownEditor.module.scss';
+import React from "react";
+import "./MarkdownEditor.module.scss";
 
-function MarkdownEditor(){
-
-    return (
-        <div className={styles.MarkdownEditorCont}>
-        MarkdownEditor
-        </div>
-    );
-}
+const MarkdownEditor = ({ markdown, setMarkdown }) => {
+  return (
+    <textarea
+      className="markdown-editor"
+      value={markdown}
+      onChange={(e) => setMarkdown(e.target.value)}
+      placeholder=""
+    />
+  );
+};
 
 export default MarkdownEditor;
