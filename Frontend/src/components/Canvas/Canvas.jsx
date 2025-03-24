@@ -1,6 +1,6 @@
 import React from "react";
 import CanvasItem from "../CanvasItem/CanvasItem";
-import "./Canvas.module.scss";
+import styles from "./Canvas.module.scss";
 
 const Canvas = ({ canvasItems, setCanvasItems }) => {
   const addItem = () => {
@@ -9,7 +9,7 @@ const Canvas = ({ canvasItems, setCanvasItems }) => {
   };
 
   return (
-    <div className="canvas">
+    <div className={styles.canvas}>
       <button onClick={addItem} className="add-item-btn">
         Add Item
       </button>
