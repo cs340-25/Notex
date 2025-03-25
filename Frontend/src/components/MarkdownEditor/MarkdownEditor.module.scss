@@ -1,0 +1,32 @@
+.markdownEditorContainer {
+  width: 100%;                 // Fixed width for readability
+  max-height: 100vh;            // Allow full viewport height
+  overflow-y: auto;             // Enables scrolling when needed
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.markdownEditor {
+  flex: 2;  // Take up more space than canvases
+  min-height: 100vh;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid black;
+  resize: none;  // Prevent resizing of the textarea
+  overflow: auto;
+}
+
+.markdownEditor textarea {
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-color: none;
+  resize: none;  // Prevent resizing of the textarea
+}
+
+textarea:focus {
+  outline: none;
+}
+
