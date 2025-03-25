@@ -1,9 +1,10 @@
 .markdownEditor {
   flex: 2;  // Take up more space than canvases
-  height: 90%;
+  height: 100%;
   padding: 10px;
   border: 1px solid black;
   resize: none;  // Prevent resizing of the textarea
+  overflow: hidden;
 }
 
 .markdownEditor textarea {
