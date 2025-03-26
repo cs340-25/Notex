@@ -124,6 +124,7 @@ def insert_user_data(cursor, conn, data):
         print(f"Database error: {e}")
         return False
 
+# Will update canvas if it already exists. Restrictions: a user cannot have duplicate canvas names.
 def insert_canvas_data(cursor, conn, data):
     '''
     Args: 
@@ -145,20 +146,28 @@ def insert_canvas_data(cursor, conn, data):
             print("Missing required fields: user_id, layout, or title")
             return False
 
-        cursor.execute("INSERT INTO canvas (user_id, layout, title) VALUES (%s, %s, %s)", 
-                    (data['user_id'], Json(data['layout']), data['title'])
-        )
+        cursor.execute("SELECT * FROM canvas WHERE user_id = %s AND title = %s", (data['user_id'], data['title']))
+        # Use RETURNING clause to check success of update
+        if cursor.fetchone():
+            cursor.execute("UPDATE canvas SET layout = %s WHERE user_id = %s AND title = %s RETURNING *", 
+                           (Json(data['layout']), data['user_id'], data['title']))
+        else: # Create new entry
+            cursor.execute("INSERT INTO canvas (user_id, layout, title) VALUES (%s, %s, %s) RETURNING *", 
+                        (data['user_id'], Json(data['layout']), data['title'])
+            )
 
+        query_success = cursor.fetchone()
         conn.commit()
         
         # Returns whether row was inserted
-        return cursor.rowcount > 0
+        return query_success is not None
     
     except psycopg2.Error as e:
         conn.rollback()
         print(f"Database error: {e}")
         return False
 
+# Will also update existing items
 def insert_image_data(cursor, conn, data):
     '''
     Args: 
@@ -181,14 +190,21 @@ def insert_image_data(cursor, conn, data):
             print("Missing required fields: user_id, folder_id, image_data, or filename")
             return False
 
-        cursor.execute("INSERT INTO images (user_id, folder_id, image_data, filename) VALUES (%s, %s, %s, %s)", 
-                    (data['user_id'], data['folder_id'], data['image_data'], data['filename'])
-        )
+        cursor.execute("SELECT * FROM images WHERE user_id = %s AND folder_id = %s AND filename = %s", (data['user_id'], data['folder_id'], data['filename']))
 
+        if cursor.fetchone():
+            cursor.execute("UPDATE images SET image_data = %s WHERE user_id = %s AND folder_id = %s AND filename = %s RETURNING *", 
+                           (data['image_data'], data['user_id'], data['folder_id'], data['filename']))
+        else:
+            cursor.execute("INSERT INTO images (user_id, folder_id, image_data, filename) VALUES (%s, %s, %s, %s) RETURNING *", 
+                        (data['user_id'], data['folder_id'], data['image_data'], data['filename'])
+            )
+
+        query_success = cursor.fetchone()
         conn.commit()
         
         # Returns whether row was inserted
-        return cursor.rowcount > 0
+        return query_success is not None
     
     except psycopg2.Error as e:
         conn.rollback()
@@ -218,15 +234,22 @@ def insert_folder_data(cursor, conn, data):
 
         # Set parent_folder_id to None if not provided
         parent_folder_id = data.get('parent_folder_id', None)
+        cursor.execute("SELECT * FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id = %s", (data['user_id'], data['name'], parent_folder_id))
 
-        cursor.execute(
-            "INSERT INTO folders (user_id, name, parent_folder_id) VALUES (%s, %s, %s)",
-            (data['user_id'], data['name'], parent_folder_id)
-        )
+        if cursor.fetchone():
+            cursor.execute("UPDATE folders SET parent_folder_id = %s WHERE user_id = %s AND name = %s RETURNING *", 
+                           (parent_folder_id, data['user_id'], data['name']))
+        else:
+            cursor.execute(
+                "INSERT INTO folders (user_id, name, parent_folder_id) VALUES (%s, %s, %s) RETURNING *",
+                (data['user_id'], data['name'], parent_folder_id)
+            )
+        
+        query_success = cursor.fetchone()
         conn.commit()
 
         # Returns whether row was inserted
-        return cursor.rowcount > 0
+        return query_success is not None
     
     except psycopg2.Error as e:
         conn.rollback()
@@ -255,14 +278,21 @@ def insert_note_data(cursor, conn, data):
             print("Missing required fields: user_id, folder_id, title, or content")
             return False
 
-        cursor.execute("INSERT INTO notes (user_id, folder_id, title, content) VALUES (%s, %s, %s, %s)", 
-                    (data['user_id'], data['folder_id'], data['title'], data['content'])
-        )
+        cursor.execute("SELECT * FROM notes WHERE user_id = %s AND folder_id = %s AND title = %s", (data['user_id'], data['folder_id'], data['title']))
 
+        if cursor.fetchone():
+            cursor.execute("UPDATE notes SET content = %s WHERE user_id = %s AND folder_id = %s AND title = %s RETURNING *", 
+                           (data['content'], data['user_id'], data['folder_id'], data['title']))
+        else:
+            cursor.execute("INSERT INTO notes (user_id, folder_id, title, content) VALUES (%s, %s, %s, %s) RETURNING *", 
+                        (data['user_id'], data['folder_id'], data['title'], data['content'])
+            )
+
+        query_success = cursor.fetchone()
         conn.commit()
         
         # Returns whether row was inserted
-        return cursor.rowcount > 0
+        return query_success is not None
     
     except psycopg2.Error as e:
         conn.rollback()
@@ -270,11 +300,13 @@ def insert_note_data(cursor, conn, data):
         return False
 
 
-def main():
+def test_db_queries():
     config = load_config()
     conn = connect_to_db(config)
     cursor = conn.cursor()
     
+    print("="*25, "INSERTION TESTS", "="*25)
+
     # Insert test user (if not exists)
     test_username = 'test_user'
     test_password = 'dummy_hash'
@@ -346,6 +378,42 @@ def main():
     else:
         print("Canvas insertion failed.")
 
+    print("="*25, "UPDATE TESTS", "="*25)
+    # Update canvas layout
+    updated_canvas_data = {
+        'user_id': test_user_id,
+        'layout': {"background": "blue", "items": [{"type": "note", "id": 1, "x": 100, "y": 150}]},
+        'title': 'Test Canvas'
+    }
+    if insert_canvas_data(cursor, conn, updated_canvas_data):
+        print("Canvas updated successfully.")
+    else:
+        print("Canvas update failed.")
+
+    # Update image data
+    updated_image_data = {
+        'user_id': test_user_id,
+        'folder_id': folder_id,
+        'image_data': b'updated image bytes',
+        'filename': 'test_image.png'
+    }
+    if insert_image_data(cursor, conn, updated_image_data):
+        print("Image updated successfully.")
+    else:
+        print("Image update failed.")
+
+    # Update note content
+    updated_note_data = {
+        'user_id': test_user_id,
+        'folder_id': folder_id,
+        'title': 'Test Note',
+        'content': 'This is the updated note content.'
+    }
+    if insert_note_data(cursor, conn, updated_note_data):
+        print("Note updated successfully.")
+    else:
+        print("Note update failed.")
+
     # Verify inserted data
     cursor.execute("SELECT * FROM users WHERE id = %s", (test_user_id,))
     print("User record:", cursor.fetchall())
@@ -377,13 +445,13 @@ if __name__ == '__main__':
     conn = connect_to_db(config)
     cursor = conn.cursor()
 
-    get_table_info(cursor, 'users')
-    get_table_info(cursor, 'canvas')
-    get_table_info(cursor, 'folders')
-    get_table_info(cursor, 'images')
-    get_table_info(cursor, 'notes')
+    # get_table_info(cursor, 'users')
+    # get_table_info(cursor, 'canvas')
+    # get_table_info(cursor, 'folders')
+    # get_table_info(cursor, 'images')
+    # get_table_info(cursor, 'notes')
 
     cursor.close()
     conn.close()
 
-    main()
+    test_db_queries()
