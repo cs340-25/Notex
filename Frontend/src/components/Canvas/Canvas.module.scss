@@ -1,24 +1,39 @@
-.canvas {
-  flex: 1;  // Takes up equal space as the other canvas
-  min-height: 10%;
-  padding: 10px;
-  background: var(--SecondardColor);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+// src/components/Canvas/Canvas.scss
+.canvas-container {
+  position: relative;
+  flex: 1;
+  background: #f4f4f4;
+  border: 1px solid #ddd;
+  transition: all 0.3s ease-in-out;
   overflow: hidden;
 }
 
+.fullscreen-btn,
 .add-item-btn {
-  margin-bottom: 10px;
-  padding: 8px 12px;
-  background-color: #4caf50;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
   color: white;
   border: none;
+  padding: 8px 12px;
   cursor: pointer;
   border-radius: 5px;
+  font-size: 14px;
+  margin-left: 10px;
 }
 
-.add-item-btn:hover {
-  background-color: #45a049;
+.add-item-btn {
+  right: 120px;
+}
+
+.canvas-content {
+  width: 3000px; // Placeholder for infinite scrolling
+  height: 3000px;
+  position: relative;
+}
+
+/* Expanded state */
+.canvas-container.expanded {
+  flex: 3;
 }

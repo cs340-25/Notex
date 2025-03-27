@@ -5,14 +5,17 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-top: 5%;
 }
 
 .markdownEditor {
   flex: 2;  // Take up more space than canvases
   min-height: 100vh;
-  width: 100%;
+  width: 90%;
   padding: 10px;
-  border: 1px solid black;
+  border: none;
+  background: var(--BackgroundColor);
+  font-size: xx-large;
   resize: none;  // Prevent resizing of the textarea
   overflow: auto;
 }
@@ -24,6 +27,10 @@
   font-size: 16px;
   border-color: none;
   resize: none;  // Prevent resizing of the textarea
+}
+
+.markdownEditor::-webkit-scrollbar {
+  display: none;
 }
 
 textarea:focus {
