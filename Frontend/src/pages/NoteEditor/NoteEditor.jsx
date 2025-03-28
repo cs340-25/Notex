@@ -9,9 +9,9 @@ const NotesEditor = () => {
   const [isCanvasExpanded, setIsCanvasExpanded] = useState(false);
 
   return (
-    <div className={`notes-editor-container ${isCanvasExpanded ? "canvas-fullscreen" : ""}`}>
-      <div className="filler-item" style={{ display: isCanvasExpanded ? "none" : "block" }} />
-      <MarkdownEditor style={{ display: isCanvasExpanded ? "none" : "block" }} />
+    <div className={`${isCanvasExpanded ? "canvas-fullscreen" : "notes-editor-container"}`}>
+      <div className="filler-item"  />
+      <MarkdownEditor />
       <Canvas onToggleFullscreen={setIsCanvasExpanded} />
     </div>
   );
