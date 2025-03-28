@@ -1,15 +1,18 @@
-// src/components/Canvas/Canvas.jsx
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import CanvasItem from "../CanvasItem/CanvasItem";
-import "./Canvas.module.scss";
+import styles from "./Canvas.module.scss";
 
 const Canvas = ({ onToggleFullscreen }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [items, setItems] = useState([]);
+  const canvasRef = useRef(null);
 
   const toggleFullscreen = () => {
-    setIsExpanded(!isExpanded);
-    onToggleFullscreen(!isExpanded);
+    console.log("Toggling fullscreen...");
+    setIsExpanded((prev) => !prev);
+    if (onToggleFullscreen) {
+      onToggleFullscreen(!isExpanded);
+    }
   };
 
   const addItem = () => {
@@ -17,22 +20,23 @@ const Canvas = ({ onToggleFullscreen }) => {
       id: Date.now(),
       content: `Item ${items.length + 1}`,
     };
-    setItems([...items, newItem]);
+    setItems((prevItems) => [...prevItems, newItem]);
+    console.log("Added item:", newItem);
   };
 
   const deleteItem = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
   };
 
   return (
-    <div className={`canvas-container ${isExpanded ? "expanded" : ""}`}>
-      <button className="fullscreen-btn" onClick={toggleFullscreen}>
+    <div ref={canvasRef} className={styles.canvasContainer}>
+      <button className={styles.fullscreenBtn} onClick={toggleFullscreen}>
         {isExpanded ? "Exit Fullscreen" : "Fullscreen"}
       </button>
-      <button className="add-item-btn" onClick={addItem}>+ Add Item</button>
-      <div className="canvas-content">
+      <button className={styles.addItemBtn} onClick={addItem}>+ Add Item</button>
+      <div className={styles.canvasContent}>
         {items.map((item) => (
-          <CanvasItem key={item.id} id={item.id} content={item.content} onDelete={deleteItem} />
+          <CanvasItem key={item.id} id={item.id} content={item.content} onDelete={deleteItem} parentRef={canvasRef} />
         ))}
       </div>
     </div>

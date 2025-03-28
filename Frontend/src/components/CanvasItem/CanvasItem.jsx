@@ -1,6 +1,6 @@
 import React from "react";
 import { Rnd } from "react-rnd";
-import "./CanvasItem.module.scss";
+import styles from "./CanvasItem.module.scss";
 
 const CanvasItem = ({ id, content, onDelete }) => {
   return (
@@ -11,10 +11,11 @@ const CanvasItem = ({ id, content, onDelete }) => {
         width: 200,
         height: 100,
       }}
-      className="canvas-item"
+      className={styles.canvasItem}
+      bounds="parent"
     >
-      <div className="canvas-item-content">
-        <button className="delete-btn" onClick={() => onDelete(id)}>
+      <div className={styles.canvasItemContent}>
+        <button className={styles.deleteBtn} onClick={() => onDelete(id)}>
           ✕
         </button>
         {content}

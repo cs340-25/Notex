@@ -1,15 +1,16 @@
-// src/components/Canvas/Canvas.scss
-.canvas-container {
+.canvasContainer {
   position: relative;
   flex: 1;
-  background: #f4f4f4;
-  border: 1px solid #ddd;
+  background: #443737;
+  border: 1px solid #2f2b2b;
+  border-radius: 10px;
   transition: all 0.3s ease-in-out;
   overflow: hidden;
 }
 
-.fullscreen-btn,
-.add-item-btn {
+.fullscreenBtn,
+.addItemBtn {
+  z-index: 9999;
   position: absolute;
   top: 10px;
   right: 10px;
@@ -23,12 +24,12 @@
   margin-left: 10px;
 }
 
-.add-item-btn {
+.addItemBtn {
   right: 120px;
 }
 
-.canvas-content {
-  width: 3000px; // Placeholder for infinite scrolling
+.canvasContent {
+  width: 20000px; // Placeholder for infinite scrolling
   height: 3000px;
   position: relative;
 }

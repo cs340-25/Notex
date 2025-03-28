@@ -1,17 +1,18 @@
-.canvas-item {
-    background: white;
+.canvasItem {
+    background: rgb(148, 82, 82);
     border: 1px solid #aaa;
+    border-radius: 5px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
     padding: 10px;
     position: absolute;
 }
   
-.canvas-item-content {
+.canvasItemContent {
     position: relative;
     padding: 10px;
 }
 
-.delete-btn {
+.deleteBtn {
     position: absolute;
     top: 5px;
     right: 5px;
