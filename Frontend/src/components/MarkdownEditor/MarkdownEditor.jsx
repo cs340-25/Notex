@@ -8,6 +8,7 @@ const MarkdownEditor = ({ markdown, setMarkdown }) => {
         className={styles.markdownEditor}
         value={markdown}
         onChange={(e) => setMarkdown(e.target.value)}
+        placeholder="Title"
       />
     </div>
   );

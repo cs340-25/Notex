@@ -1,0 +1,10 @@
+.outline {
+    flex: 1;  // Takes up equal space as the other canvas
+    min-height: 10%;
+    padding: 10px;
+    background: var(--SecondardColor);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+}
