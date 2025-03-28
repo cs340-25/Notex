@@ -29,7 +29,7 @@ const Canvas = ({ onToggleFullscreen }) => {
   //   Handle Zooming with Mouse Wheel
   const handleWheel = (e) => {
     e.preventDefault();
-    const zoomSpeed = 0.1;
+    const zoomSpeed = 0.3;
     const newScale = Math.min(Math.max(scale - e.deltaY * zoomSpeed * 0.01, 0.5), 2); // Limits zoom between 50% and 200%
     setScale(newScale);
   };
@@ -51,7 +51,7 @@ const Canvas = ({ onToggleFullscreen }) => {
 
     // Smooth factor for easing
     const friction = 0.8;  // Deceleration factor, adjust for slower/fast panning
-    const speedFactor = 0.5; // Overall speed of movement, adjust as needed
+    const speedFactor = 1; // Overall speed of movement, adjust as needed
 
     const handleMouseMove = (moveEvent) => {
       const deltaX = moveEvent.clientX - lastX;
