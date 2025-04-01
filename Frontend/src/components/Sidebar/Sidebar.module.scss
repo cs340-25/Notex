@@ -3,11 +3,10 @@
     flex-direction: column;
     justify-content: space-between;
     height: var(--AppHeight);
-    // width: 10em;
-    min-width: 150px;
+    min-width: 160px;
     background-color: var(--SecondaryColor);
     color: white;
-    border-right: 1px solid var(--PrimaryTextColor);
+    box-shadow: inset -1px 0 0 var(--PrimaryTextColor);
     position: relative;
 }   
 
