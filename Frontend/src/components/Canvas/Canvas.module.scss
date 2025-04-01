@@ -4,7 +4,7 @@
   background: #443737;
   border: 1px solid #2f2b2b;
   border-radius: 10px;
-  transition: all 0.3s ease-in-out;
+  transition: var(--TransitionVar);
   overflow: hidden;
   cursor: grab;
 }

@@ -10,6 +10,8 @@ body {
   font-family: var(--FontFamily);
   background-color: var(--BackgroundColor);
   color: var(--PrimaryTextColor);
+  transition: var(--TransitionVar);
+
 }
 
 #App {
@@ -20,6 +22,7 @@ body {
   justify-content: center;
   align-items: center;
   margin: 0;
+  transition: var(--TransitionVar);
 }
 
 #AppCont{
@@ -29,25 +32,26 @@ body {
   flex-direction: column;
   justify-content: center;
   margin: 0;
+  transition: var(--TransitionVar);
 }
 .SideColumn {
   height: var(--AppHeight);
-  width: 20em;
+  width: 25em;
   display: flex;
   flex-direction: row;
   transition: transform 0.3s cubic-bezier(.58, .17, .48, .92), width 0.3s cubic-bezier(.58, .17, .48, .92);
-
+  transition: var(--TransitionVar);
 }
 
 .SCClosed {
-  width: 5em;
+  width: calc(25em - 200px);
   transform: translateX(-160px);
   // filter: opacity(.5);
 }
 
 .Workspace {
+  transition: var(--TransitionVar);
   flex-grow: 1;
   height: var(--AppHeight);
-  // width: calc(100vw - 10em);
   width: 100%;
 }

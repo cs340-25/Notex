@@ -1,4 +1,6 @@
 .FolderbarCont{
+    transition: var(--TransitionVar);
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
