@@ -1,0 +1,48 @@
+
+.switch {
+    font-size: 17px;
+    position: relative;
+    display: inline-block;
+    width: 3.5em;
+    height: 2em;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    inset: 0;
+    background: var(--SecondaryTextColor);
+    border-radius: 50px;
+    transition: var(--TransitionVar);
+    box-sizing: border-box;
+
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 1.4em;
+    width: 1.4em;
+    left: 0.3em;
+    bottom: 0.3em;
+    background-color: var(--PrimaryTextColor);
+    border-radius: 50px;
+    box-shadow: 0 0px 20px rgba(0,0,0,0.4);
+    transition: var(--TransitionVar);
+}
+  
+  .switch input:checked + .slider {
+    background: var(--TertiaryColor);
+  }
+  
+  .switch input:checked + .slider:before {
+    transform: translateX(1.6em);
+
+  }

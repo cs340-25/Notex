@@ -1,11 +1,12 @@
 .SidebarCont{
+    transition: var(--TransitionVar);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: var(--AppHeight);
     min-width: 160px;
     background-color: var(--SecondaryColor);
-    color: white;
+    color: var(--PrimaryTextColor);
     box-shadow: inset -1px 0 0 var(--PrimaryTextColor);
     position: relative;
 }   
@@ -68,7 +69,7 @@
     margin: 0 0 1em 0;
 }
 .SidebarClose{
-    transition: .5s ease-in;
+    transition: var(--TransitionVar);
 }
 
 a{
