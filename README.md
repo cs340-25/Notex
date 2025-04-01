@@ -1,4 +1,4 @@
-# Nuzz
+# Notex
 This is a feature rich note taking app made for all users. 
 
 Project Members:
@@ -14,7 +14,7 @@ Prerequisite:
 - run "npm run update"
 
 Start up App:
-- *Within '/Nuzz'* "npm run dev"
+- *Within '/Notex'* "npm run dev"
 
 Update Packages in all directories:
 - run "npm run update"
