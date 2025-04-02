@@ -149,18 +149,18 @@ def insert_canvas_data(cursor, conn, data):
         cursor.execute("SELECT * FROM canvas WHERE user_id = %s AND title = %s", (data['user_id'], data['title']))
         # Use RETURNING clause to check success of update
         if cursor.fetchone():
-            cursor.execute("UPDATE canvas SET layout = %s WHERE user_id = %s AND title = %s RETURNING *", 
+            cursor.execute("UPDATE canvas SET layout = %s WHERE user_id = %s AND title = %s", 
                            (Json(data['layout']), data['user_id'], data['title']))
         else: # Create new entry
-            cursor.execute("INSERT INTO canvas (user_id, layout, title) VALUES (%s, %s, %s) RETURNING *", 
+            cursor.execute("INSERT INTO canvas (user_id, layout, title) VALUES (%s, %s, %s)", 
                         (data['user_id'], Json(data['layout']), data['title'])
             )
 
-        query_success = cursor.fetchone()
+        query_success = cursor.rowcount
         conn.commit()
         
         # Returns whether row was inserted
-        return query_success is not None
+        return query_success > 0
     
     except psycopg2.Error as e:
         conn.rollback()
@@ -178,7 +178,7 @@ def insert_image_data(cursor, conn, data):
     {
     'user_id' : user_id_val,
     'folder_id' : folder_id_val, 
-    'image_data' : image_data_bytea_val, 
+    'image_data' : image_data_bytes_val, 
     'filename' : filename_val
     }
       
@@ -193,18 +193,18 @@ def insert_image_data(cursor, conn, data):
         cursor.execute("SELECT * FROM images WHERE user_id = %s AND folder_id = %s AND filename = %s", (data['user_id'], data['folder_id'], data['filename']))
 
         if cursor.fetchone():
-            cursor.execute("UPDATE images SET image_data = %s WHERE user_id = %s AND folder_id = %s AND filename = %s RETURNING *", 
-                           (data['image_data'], data['user_id'], data['folder_id'], data['filename']))
+            cursor.execute("UPDATE images SET image_data = %s WHERE user_id = %s AND folder_id = %s AND filename = %s", 
+                           (psycopg2.Binary(data['image_data']), data['user_id'], data['folder_id'], data['filename']))
         else:
-            cursor.execute("INSERT INTO images (user_id, folder_id, image_data, filename) VALUES (%s, %s, %s, %s) RETURNING *", 
-                        (data['user_id'], data['folder_id'], data['image_data'], data['filename'])
+            cursor.execute("INSERT INTO images (user_id, folder_id, image_data, filename) VALUES (%s, %s, %s, %s)", 
+                        (data['user_id'], data['folder_id'], psycopg2.Binary(data['image_data']), data['filename'])
             )
 
-        query_success = cursor.fetchone()
+        query_success = cursor.rowcount
         conn.commit()
         
         # Returns whether row was inserted
-        return query_success is not None
+        return query_success > 0
     
     except psycopg2.Error as e:
         conn.rollback()
@@ -237,19 +237,19 @@ def insert_folder_data(cursor, conn, data):
         cursor.execute("SELECT * FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id = %s", (data['user_id'], data['name'], parent_folder_id))
 
         if cursor.fetchone():
-            cursor.execute("UPDATE folders SET parent_folder_id = %s WHERE user_id = %s AND name = %s RETURNING *", 
+            cursor.execute("UPDATE folders SET parent_folder_id = %s WHERE user_id = %s AND name = %s", 
                            (parent_folder_id, data['user_id'], data['name']))
         else:
             cursor.execute(
-                "INSERT INTO folders (user_id, name, parent_folder_id) VALUES (%s, %s, %s) RETURNING *",
+                "INSERT INTO folders (user_id, name, parent_folder_id) VALUES (%s, %s, %s)",
                 (data['user_id'], data['name'], parent_folder_id)
             )
         
-        query_success = cursor.fetchone()
+        query_success = cursor.rowcount
         conn.commit()
 
         # Returns whether row was inserted
-        return query_success is not None
+        return query_success > 0
     
     except psycopg2.Error as e:
         conn.rollback()
@@ -281,25 +281,184 @@ def insert_note_data(cursor, conn, data):
         cursor.execute("SELECT * FROM notes WHERE user_id = %s AND folder_id = %s AND title = %s", (data['user_id'], data['folder_id'], data['title']))
 
         if cursor.fetchone():
-            cursor.execute("UPDATE notes SET content = %s WHERE user_id = %s AND folder_id = %s AND title = %s RETURNING *", 
+            cursor.execute("UPDATE notes SET content = %s WHERE user_id = %s AND folder_id = %s AND title = %s", 
                            (data['content'], data['user_id'], data['folder_id'], data['title']))
         else:
-            cursor.execute("INSERT INTO notes (user_id, folder_id, title, content) VALUES (%s, %s, %s, %s) RETURNING *", 
+            cursor.execute("INSERT INTO notes (user_id, folder_id, title, content) VALUES (%s, %s, %s, %s)", 
                         (data['user_id'], data['folder_id'], data['title'], data['content'])
             )
 
-        query_success = cursor.fetchone()
+        query_success = cursor.rowcount
         conn.commit()
         
         # Returns whether row was inserted
-        return query_success is not None
+        return query_success > 0
     
     except psycopg2.Error as e:
         conn.rollback()
         print(f"Database error: {e}")
         return False
 
+def delete_user_data(cursor, conn, data):
+    '''
+    Args: 
+    psycopg2 cursor for accessing database
+    conn: psycopg2 connection to commit the transaction
+    data: contains a user id as follows:
+    
+    {
+    'user_id' : user_id_val
+    }
+      
+    Returns: True or False depending on success of operation.
+    '''
+    if 'user_id' not in data:
+        print("Missing required field: user_id")
+        return False
+    
+    
+    try:
+        cursor.execute("DELETE FROM users WHERE id = %s", (data['user_id'],))
+        query_success = cursor.rowcount
+        conn.commit()
 
+        return query_success > 0
+
+    except psycopg2.Error as e:
+        conn.rollback()
+        print(f"Database error: {e}")
+        return False
+
+def delete_canvas_data(cursor, conn, data):
+    '''
+    Args: 
+    psycopg2 cursor for accessing database
+    conn: psycopg2 connection to commit the transaction
+    data: contains a user_id and title as follows:
+    
+    {
+    'user_id' : id_val
+    'title' : title_val
+    }
+      
+    Returns: True or False depending on success of operation.
+    '''
+    if 'user_id' not in data or 'title' not in data:
+        print("Missing required fields: user_id or title")
+        return False
+    
+    try:
+        cursor.execute("DELETE FROM canvas WHERE user_id = %s AND title = %s", (data['user_id'], data['title']))
+        query_success = cursor.rowcount
+        conn.commit()
+
+        return query_success > 0
+
+    except psycopg2.Error as e:
+        conn.rollback()
+        print(f"Database error: {e}")
+        return False
+
+def delete_image_data(cursor, conn, data):
+    '''
+    Args: 
+    psycopg2 cursor for accessing database
+    conn: psycopg2 connection to commit the transaction
+    data: contains a user_id, folder_id, and filename as follows:
+    
+    {
+    'user_id' : user_id_val,
+    'folder_id' : folder_id_val, 
+    'filename' : filename_val
+    }
+      
+    Returns: True or False depending on success of operation.
+    '''
+    if 'user_id' not in data or 'folder_id' not in data or 'filename' not in data:
+        print("Missing required fields: user_id, folder_id, or filename")
+        return False
+    
+    try:
+        cursor.execute("DELETE FROM images WHERE user_id = %s AND folder_id = %s AND filename = %s", (data['user_id'], data['folder_id'], data['filename']))
+        query_success = cursor.rowcount
+        conn.commit()
+
+        return query_success > 0
+
+    except psycopg2.Error as e:
+        conn.rollback()
+        print(f"Database error: {e}")
+        return False
+    
+def delete_folder_data(cursor, conn, data):
+    '''
+    Args:
+    cursor: psycopg2 cursor for accessing the database
+    conn: psycopg2 connection to commit the transaction
+    data: contains a user_id, name, and a parent_folder_id (if necessary) as follows:
+    
+    {
+        'user_id': user_id_val,
+        'name': folder_name_val,
+        'parent_folder_id': parent_folder_id_val (optional)
+    }
+    
+    Returns: True or False depending on the success of the operation.
+    '''
+    if 'user_id' not in data or 'name' not in data:
+        print("Missing required fields: user_id or name")
+        return False
+    
+    try:
+        parent_folder_id = data.get('parent_folder_id', None)
+
+        if parent_folder_id:
+            cursor.execute("DELETE FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id = %s", (data['user_id'], data['name'], parent_folder_id))
+            query_success = cursor.rowcount
+        else:
+            cursor.execute("DELETE FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id IS NULL", (data['user_id'], data['name']))
+            query_success = cursor.rowcount 
+                      
+        conn.commit()
+
+        return query_success > 0
+
+    except psycopg2.Error as e:
+        conn.rollback()
+        print(f"Database error: {e}")
+        return False
+
+def delete_note_data(cursor, conn, data):
+    '''
+    Args: 
+    psycopg2 cursor for accessing database
+    conn: psycopg2 connection to commit the transaction
+    data: contains a user_id, folder_id, and title as follows:
+    
+    {
+    'user_id' : user_id_val,
+    'folder_id' : folder_id_val,
+    'title' : title_val,
+    }
+      
+    Returns: True or False depending on success of operation.
+    '''
+    if 'user_id' not in data or 'folder_id' not in data or 'title' not in data:
+        print("Missing required fields: user_id, folder_id, or title")
+        return False
+    
+    try:
+        cursor.execute("DELETE FROM notes WHERE user_id = %s AND folder_id = %s AND title = %s", (data['user_id'], data['folder_id'], data['title']))
+        query_success = cursor.rowcount
+        conn.commit()
+
+        return query_success > 0
+
+    except psycopg2.Error as e:
+        conn.rollback()
+        print(f"Database error: {e}")
+        return False
+    
 def test_db_queries():
     config = load_config()
     conn = connect_to_db(config)
@@ -349,7 +508,7 @@ def test_db_queries():
     image_data = {
         'user_id': test_user_id,
         'folder_id': folder_id,
-        'image_data': b'test image bytes',
+        'image_data': b'test image bytea',
         'filename': 'test_image.png'
     }
     if insert_image_data(cursor, conn, image_data):
@@ -426,12 +585,13 @@ def test_db_queries():
     cursor.execute("SELECT * FROM canvas;")
     print("Canvas:", cursor.fetchall())
     
+    print("="*25, "DELETE TESTS", "="*25)
     # Delete inserted test data (order matters due to foreign key constraints)
-    cursor.execute("DELETE FROM canvas WHERE user_id = %s AND title = %s", (test_user_id, "Test Canvas"))
-    cursor.execute("DELETE FROM images WHERE user_id = %s AND filename = %s", (test_user_id, "test_image.png"))
-    cursor.execute("DELETE FROM notes WHERE user_id = %s AND title = %s", (test_user_id, "Test Note"))
-    cursor.execute("DELETE FROM folders WHERE user_id = %s AND name = %s", (test_user_id, "Test Folder"))
-    cursor.execute("DELETE FROM users WHERE id = %s", (test_user_id,))
+    print(f"delete canvas test: {delete_canvas_data(cursor=cursor, conn=conn, data={'user_id': test_user_id, 'title': 'Test Canvas'})}")
+    print(f"delete image test: {delete_image_data(cursor=cursor, conn=conn, data={'user_id': test_user_id, 'folder_id': folder_id, 'filename': 'test_image.png'})}")
+    print(f"delete note test: {delete_note_data(cursor=cursor, conn=conn, data={'user_id': test_user_id, 'folder_id': folder_id, 'title': 'Test Note'})}")
+    print(f"delete folder test: {delete_folder_data(cursor=cursor, conn=conn, data={'user_id': test_user_id, 'name': 'Test Folder'})}")
+    print(f"delete user test: {delete_user_data(cursor=cursor, conn=conn, data={'user_id': test_user_id})}")
     conn.commit()
     print("Test data deleted successfully.")
 
