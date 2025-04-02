@@ -5,7 +5,7 @@ import { IoFolder, IoDocumentText, IoFolderOpen } from "react-icons/io5";
 
 
 function Home() {
-  const [folders, setFolders] = useState([]);
+  const [folders, setFolders] = useState([data.Folders]);
 
   useEffect(() => {
     if (data.Folders) {
@@ -15,15 +15,26 @@ function Home() {
 
   return (
     <div className="HomeCont">
-      <header className="HomeHeader">
+      <div className="HomeHeader">
         <h1>notex</h1>
         <div className="Menu">
           <button onClick={() => alert('open folder')}><IoFolderOpen />Open Folder</button>
           <button onClick={() => alert('makes a file')}><IoDocumentText />Make File</button>
         </div>
-      </header>
+      </div>
 
       <div className="GridContainer">
+        {folders.map((folder) => (
+          <div key={folder.id} className="GridItem folder">
+            <IoFolder />{folder.name}
+          </div>
+        ))}
+
+        {folders.flatMap(folder => folder.files || []).map((file) => (
+          <div key={file.id} className="GridItem file">
+            <IoDocumentText />{file.name}.{file.type}
+          </div>
+        ))}
         {folders.map((folder) => (
           <div key={folder.id} className="GridItem folder">
             <IoFolder />{folder.name}
