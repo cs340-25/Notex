@@ -1,10 +1,14 @@
 import React from 'react';
 import './Search.scss';
+import SearchBar from '../../components/SearchBar/SearchBar';
 
 function Search() {
   return (
     <div className="SearchCont">
-      Search
+      <h1 className="SearchTitle">Search</h1>
+      <div className="SearchBarCont">
+        <SearchBar/>
+      </div>
     </div>
   );
 }

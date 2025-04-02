@@ -3,4 +3,14 @@
     height: 100%;
     margin: 0;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.SearchTitle{
+    margin: 0;
+    padding: .5em 0 1em 0;
+    font-size: 2.5em;
 }
