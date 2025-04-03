@@ -14,7 +14,7 @@ function SearchBar() {
         }),
         container: (provided) => ({
             ...provided,
-            width: "600px", // Set a fixed width
+            width: "clamp(5em, 35vh + 5em, 600px)", // Set a fixed width
         }),
         control: (provided, state) => ({
             ...provided,
