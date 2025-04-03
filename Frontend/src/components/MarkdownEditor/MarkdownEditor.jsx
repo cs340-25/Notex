@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./MarkdownEditor.module.scss";
 
-const MarkdownEditor = ({ markdown, setMarkdown }) => {
+const MarkdownEditor = ({ markdown, setMarkdown, textBox }) => {
   return (
     <div className={styles.markdownEditorContainer}>
       <textarea
@@ -10,7 +10,11 @@ const MarkdownEditor = ({ markdown, setMarkdown }) => {
         onChange={(e) => setMarkdown(e.target.value)}
         placeholder="Title"
       />
+      
     </div>
+    
+
+    
   );
 };
 

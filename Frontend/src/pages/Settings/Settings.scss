@@ -1,4 +1,4 @@
-.SettingsCont{
+.SettingsCont {
     transition: var(--TransitionVar);
     width: 100%;
     height: 100%;
@@ -9,40 +9,64 @@
     align-items: center;
 }
 
-.SettingsTitle{
+.SettingsTitle {
     transition: var(--TransitionVar);
     position: relative;
-    top: .5em;
-    left: 0;
+    top: 0.5em;
     width: 100%;
     height: 10%;
     margin: 0;
     padding: 0;
     font-size: 2.5em;
-    transition: color 0.5 linear;
     color: var(--PrimaryTextColor);
 }
 
-.SettingsOptions{
+.SettingsOptions {
     transition: var(--TransitionVar);
     background-color: var(--PrimaryColor);
     width: 70%;
     height: auto;
-    margin: 0;
-    padding: 0;
     border-radius: 0.5em;
     padding: 1em 0;
-
 }
-.Option{
+
+.Option {
     transition: var(--TransitionVar);
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     font-size: 1.25em;
-    color: var(--PrimaryTextColor)
+    padding: 1%;
+    color: var(--PrimaryTextColor);
+    cursor: pointer;
 }
-#DarkMode{
+
+#DarkMode {
     gap: 1em;
+}
+
+.CustomToggle {
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.CustomColors {
+    display: flex;
+    flex-direction: column;
+    gap: 10%;
+    padding: 1%;
+    margin-bottom: 5%;
+}
+
+.ColorPicker {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px;
+    color: var(--PrimaryTextColor);
 }
