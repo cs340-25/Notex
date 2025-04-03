@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
 
 export const ThemeContext = createContext();
 export const ThemeProvider = ({ children }) => {
@@ -17,36 +17,44 @@ export const ThemeProvider = ({ children }) => {
 
     const toggleTheme = () => {
         setIsDarkMode(!isDarkMode);
+        
+    };
+
+    useEffect(() =>{
         document.documentElement.style.setProperty(
             '--PrimaryColor',
-            isDarkMode ? '#e3d5ca' : '#494343'
+            isDarkMode ? '#494343' : '#e3d5ca'
         );
         document.documentElement.style.setProperty(
             '--SecondaryColor',
-            isDarkMode ? '#f5ebe0' : '#272020'
+            isDarkMode ? '#272020' : '#f5ebe0'
         );
         document.documentElement.style.setProperty(
             '--BackgroundColor',
-            isDarkMode ? '#d6ccc2' : '#1b1313'
+            isDarkMode ? '#1b1313' : '#d6ccc2'
         );
         document.documentElement.style.setProperty(
             '--TertiaryColor',
-            isDarkMode ? '#cf9963' : '#7b1e1e'
+            isDarkMode ? '#804F4F' : '#cf9963'
         );
         document.documentElement.style.setProperty(
             '--TertiaryColorDark',
-            isDarkMode ? '#4f3a24' : '#5a1515'
+            isDarkMode ? '#432a2a' : '#4f3a24'
         );
         document.documentElement.style.setProperty(
             '--PrimaryTextColor',
-            isDarkMode ? '#382c26' : '#DFDFDF'
+            isDarkMode ? '#DFDFDF' : '#382c26'
         );
         document.documentElement.style.setProperty(
             '--SecondaryTextColor',
-            isDarkMode ? '#73655d' : '#767676'
+            isDarkMode ? '#767676' : '#73655d'
         );
-    };
+        document.documentElement.style.setProperty(
+            '--BoxShadow',
+            isDarkMode ? '-2px -2px 5px rgba(255, 255, 255, .1)' : '2px 2px 5px rgba(0, 0, 0, .1)'
+        );
 
+    }, [isDarkMode])
     return (
         <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
             {children}

@@ -16,7 +16,7 @@ function Home() {
   return (
     <div className="HomeCont">
       <div className="HomeHeader">
-        <h1>notex</h1>
+        <h1>Notex</h1>
         <div className="Menu">
           <button onClick={() => alert('open folder')}><IoFolderOpen />Open Folder</button>
           <button onClick={() => alert('makes a file')}><IoDocumentText />Make File</button>

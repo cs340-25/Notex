@@ -12,12 +12,13 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   --BackgroundColor: #1b1313;
-  --PrimaryColor: #494343;
+  --PrimaryColor: #8E8383;
   --SecondaryColor: #272020;
-  --TertiaryColor: #7b1e1e;
-  --TertiaryColorDark: #5a1515; 
+  --TertiaryColor: #804F4F;
+  --TertiaryColorDark: #432a2a; 
   --PrimaryTextColor: #DFDFDF;
   --SecondaryTextColor: #767676;
   --TransitionVar: all 0.3s ease-in-out;
   --AppHeight: calc(100vh - 2em);
+  --BoxShadow: 2px 2px 5px rgba(0, 0, 0, .1);
 }
