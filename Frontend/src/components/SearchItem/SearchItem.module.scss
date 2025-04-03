@@ -1,0 +1,66 @@
+.SearchItemCont{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 8%;
+    position: relative;
+}
+
+.SearchItemTextCont{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0 1em;
+    color: var(--PrimaryTextColor);
+    transition: var(--TransitionVar);
+    
+}
+.SearchItemText{
+    padding-left: 2em;
+    z-index: 1;
+}
+
+.odd{
+    &::before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--TertiaryColorDark);
+        opacity: 0.5;
+        border-radius: 5px;
+        transition: var(--TransitionVar);
+    }
+    &:hover::before{
+        cursor: pointer;
+        background-color: var(--PrimaryColor);
+    }
+    // background-color: var(--TertiaryColorDark);
+}
+.even{
+    // background-color: var(--TertiaryColor);
+    &::before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--TertiaryColor);
+        opacity: 0.5;
+        border-radius: 5px;
+        transition: var(--TransitionVar);
+
+    }
+    &:hover::before{
+        cursor: pointer;
+        background-color: var(--PrimaryColor);
+    }
+}
