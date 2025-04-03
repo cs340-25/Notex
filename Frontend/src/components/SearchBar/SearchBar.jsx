@@ -77,13 +77,12 @@ function SearchBar() {
         const filePath = "";
         const genOptions = generateOptions(Folders, filePath);
         setOptions(genOptions);
-        console.log("Options generated: ", genOptions);
     }, []);
     const [searchTerm, setSearchTerm] = useState("");
 
     return (
         <div className={styles.searchBarCont}>
-            <Select styles={customStyles} options={options} isSearchable={true} onChange={handleChange}/>
+            <Select styles={customStyles} options={options} isSearchable={true} onChange={handleChange} placeholder="Search"/>
         </div>
     );
 }
