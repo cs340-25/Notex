@@ -3,7 +3,7 @@ import { createContext, useState, useEffect } from "react";
 export const ThemeContext = createContext();
 export const ThemeProvider = ({ children }) => {
 
-    const [isDarkMode, setIsDarkMode] = useState(true);
+    const [isDarkMode, setIsDarkMode] = useState(false);
 
     /* get the custom colors saved, else, use default dark mode settings*/
     const [customColors, setCustomColors] = useState({
