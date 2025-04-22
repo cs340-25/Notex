@@ -2,6 +2,28 @@ import axios from "axios";
 
 const baseURL = "";
 
+/*
+    Canvas{
+        'user_id' : user_id_val,
+        'folder_id' : folder_id_val, 
+        'image_data' : image_data_bytes_val, 
+        'filename' : filename_val
+    }
+
+    Folder{
+        'user_id': user_id_val,
+        'name': folder_name_val,
+        'parent_folder_id': parent_folder_id_val (optional)
+    }
+
+    Note{
+        'user_id' : user_id_val,
+        'folder_id' : folder_id_val,
+        'title' : title_val,
+        'content' : content_val
+    }
+*/
+
 async function getData(username) {
     const response = await axios.get(`${baseURL}/data`, {
         params: {
@@ -26,10 +48,10 @@ async function postData(username, data) {
     return response.data;
 }
 
-async function putData(username, data) {
+async function putData(username, password, data) {
     const response = await axios.put(`${baseURL}/data`, data, {
         params: {
-            username: username
+            username: username,
         }
     })
         .catch((error) => {
@@ -38,10 +60,10 @@ async function putData(username, data) {
     return response.data;
 }
 
-async function deleteData(username, data) {
+async function deleteData(username, password, data) {
     const response = await axios.delete(`${baseURL}/data`, data,{
         params: {
-            username: username
+            username: username,
         }
     })
         .catch((error) => {
