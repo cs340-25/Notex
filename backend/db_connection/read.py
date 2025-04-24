@@ -145,10 +145,10 @@ def read_folder_data(cursor, conn, data):
         parent_folder_id = data.get('parent_folder_id', None)
 
         if parent_folder_id:
-            cursor.execute("SELECT id, user_id, name, created_at, parent_folder_id FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id = %s", (data['user_id'], data['name'], parent_folder_id))
+            cursor.execute("SELECT id, user_id, name, created_at, favorite, parent_folder_id FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id = %s", (data['user_id'], data['name'], parent_folder_id))
             user_data = cursor.fetchone()            
         else:
-            cursor.execute("SELECT id, user_id, name, created_at, parent_folder_id FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id IS NULL", (data['user_id'], data['name']))
+            cursor.execute("SELECT id, user_id, name, created_at, favorite, parent_folder_id FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id IS NULL", (data['user_id'], data['name']))
             user_data = cursor.fetchone()
                 
         if user_data:
@@ -158,7 +158,8 @@ def read_folder_data(cursor, conn, data):
                 'user_id': user_data[1],
                 'name': user_data[2],
                 'created_at': user_data[3].strftime('%Y-%m-%d %H:%M:%S'),
-                'parent_folder_id': user_data[4]
+                'favorite': user_data[4],
+                'parent_folder_id': user_data[5]
             }
 
         else:
@@ -190,7 +191,7 @@ def read_note_data(cursor, conn, data):
         return False
     
     try:
-        cursor.execute("SELECT id, user_id, folder_id, title, content, created_at FROM notes WHERE user_id = %s AND folder_id = %s AND title = %s", (data['user_id'], data['folder_id'], data['title']))
+        cursor.execute("SELECT id, user_id, folder_id, title, content, favorite, created_at FROM notes WHERE user_id = %s AND folder_id = %s AND title = %s", (data['user_id'], data['folder_id'], data['title']))
 
         user_data = cursor.fetchone()
                 
@@ -202,7 +203,8 @@ def read_note_data(cursor, conn, data):
                 'folder_id': user_data[2],
                 'title': user_data[3],
                 'content': user_data[4],
-                'created_at': user_data[5].strftime('%Y-%m-%d %H:%M:%S'),
+                'favorite': user_data[5],
+                'created_at': user_data[6].strftime('%Y-%m-%d %H:%M:%S'),
             }
     except psycopg2.Error as e:
         conn.rollback()

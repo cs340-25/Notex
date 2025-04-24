@@ -145,6 +145,7 @@ def insert_folder_data(cursor, conn, data):
     {
         'user_id': user_id_val,
         'name': folder_name_val,
+        'favorite': true/false, (optional)
         'parent_folder_id': parent_folder_id_val (optional)
     }
     
@@ -158,15 +159,17 @@ def insert_folder_data(cursor, conn, data):
 
         # Set parent_folder_id to None if not provided
         parent_folder_id = data.get('parent_folder_id', None)
-        cursor.execute("SELECT * FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id = %s", (data['user_id'], data['name'], parent_folder_id))
+        cursor.execute("SELECT * FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id IS NOT DISTINCT FROM %s", (data['user_id'], data['name'], parent_folder_id))
 
+        # Similar with favorite, default False
+        favorite = data.get('favorite', False)
         if cursor.fetchone():
-            cursor.execute("UPDATE folders SET parent_folder_id = %s WHERE user_id = %s AND name = %s", 
-                           (parent_folder_id, data['user_id'], data['name']))
+            cursor.execute("UPDATE folders SET parent_folder_id = %s, favorite = %s WHERE user_id = %s AND name = %s", 
+                           (parent_folder_id, favorite, data['user_id'], data['name']))
         else:
             cursor.execute(
-                "INSERT INTO folders (user_id, name, parent_folder_id) VALUES (%s, %s, %s)",
-                (data['user_id'], data['name'], parent_folder_id)
+                "INSERT INTO folders (user_id, name, parent_folder_id, favorite) VALUES (%s, %s, %s, %s)",
+                (data['user_id'], data['name'], parent_folder_id, favorite)
             )
         
         query_success = cursor.rowcount
@@ -191,7 +194,8 @@ def insert_note_data(cursor, conn, data):
     'user_id' : user_id_val,
     'folder_id' : folder_id_val,
     'title' : title_val,
-    'content' : content_val
+    'content' : content_val,
+    'favorite' : true/false (optional)
     }
       
     Returns: True or False depending on success of operation.
@@ -204,12 +208,14 @@ def insert_note_data(cursor, conn, data):
 
         cursor.execute("SELECT * FROM notes WHERE user_id = %s AND folder_id = %s AND title = %s", (data['user_id'], data['folder_id'], data['title']))
 
+        favorite = data.get('favorite', False)
+
         if cursor.fetchone():
-            cursor.execute("UPDATE notes SET content = %s WHERE user_id = %s AND folder_id = %s AND title = %s", 
-                           (data['content'], data['user_id'], data['folder_id'], data['title']))
+            cursor.execute("UPDATE notes SET content = %s, favorite = %s WHERE user_id = %s AND folder_id = %s AND title = %s", 
+                           (data['content'], favorite, data['user_id'], data['folder_id'], data['title']))
         else:
-            cursor.execute("INSERT INTO notes (user_id, folder_id, title, content) VALUES (%s, %s, %s, %s)", 
-                        (data['user_id'], data['folder_id'], data['title'], data['content'])
+            cursor.execute("INSERT INTO notes (user_id, folder_id, title, content, favorite) VALUES (%s, %s, %s, %s, %s)", 
+                        (data['user_id'], data['folder_id'], data['title'], data['content'], favorite)
             )
 
         query_success = cursor.rowcount

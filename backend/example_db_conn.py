@@ -32,7 +32,8 @@ def test_db_queries():
     folder_data = {
         'user_id': test_user_id,
         'name': 'Test Folder',
-        'parent_folder_id': None
+        'parent_folder_id': None,
+        'favorite': True
     }
     folder_id = insert_folder_data(cursor, conn, folder_data)
     if folder_id:
@@ -65,10 +66,11 @@ def test_db_queries():
         'user_id': test_user_id,
         'folder_id': folder_id,
         'title': 'Test Note',
-        'content': 'This is a sample note content.'
+        'content': 'This is a sample note content.',
+        'favorite': True
     }
     if insert_note_data(cursor, conn, note_data):
-        print("Note inserted successfully.")
+        print("Note inserted successfully with favorite=True.")
     else:
         print("Note insertion failed.")
 
@@ -106,15 +108,27 @@ def test_db_queries():
     else:
         print("Image update failed.")
 
+    updated_folder_data = {
+        'user_id': test_user_id,
+        'name': 'Test Folder',
+        'parent_folder_id': None,
+        'favorites': False
+    }
+    if insert_folder_data(cursor, conn, updated_folder_data):
+        print("Folder updated successfully with favorites=False.")
+    else:
+        print("Folder update failed.")
+
     # Update note content
     updated_note_data = {
         'user_id': test_user_id,
         'folder_id': folder_id,
         'title': 'Test Note',
-        'content': 'This is the updated note content.'
+        'content': 'This is the updated note content.',
+        'favorite': True
     }
     if insert_note_data(cursor, conn, updated_note_data):
-        print("Note updated successfully.")
+        print("Note updated successfully with favorite=False.")
     else:
         print("Note update failed.")
 
@@ -152,6 +166,7 @@ def test_db_queries():
     result = read_note_data(cursor, conn, {'user_id': test_user_id, 'folder_id': folder_id, 'title': 'Test Note'})
     assert result is not None, "Failed to fetch note data."
     assert result['title'] == 'Test Note', "Note title mismatch."
+    assert result['favorite'] == True, "Note favorite flag mismatch after update."
     print("read_note_data passed.")
 
     print("Testing read_canvas_data...")
