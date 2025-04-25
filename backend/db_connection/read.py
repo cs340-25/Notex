@@ -19,7 +19,7 @@ def read_user_data(cursor, conn, data):
     
     
     try:
-        cursor.execute("SELECT id, username, created_at FROM users WHERE id = %s", (data['user_id'],))
+        cursor.execute("SELECT id, username, created_at, password_hash FROM users WHERE id = %s", (data['user_id'],))
         
         user_data = cursor.fetchone()
         if user_data:
@@ -27,7 +27,8 @@ def read_user_data(cursor, conn, data):
             return {
                 'id': user_data[0],
                 'username': user_data[1],
-                'created_at': user_data[2].strftime('%Y-%m-%d %H:%M:%S')
+                'created_at': user_data[2].strftime('%Y-%m-%d %H:%M:%S'),
+                'password_hash': user_data[3]
             }
     
         else:
