@@ -36,11 +36,12 @@ body {
 }
 .SideColumn {
   height: var(--AppHeight);
-  width: 25em;
+  width: 22.5em;
   display: flex;
   flex-direction: row;
   transition: transform 0.3s cubic-bezier(.58, .17, .48, .92), width 0.3s cubic-bezier(.58, .17, .48, .92);
   transition: var(--TransitionVar);
+  background-color: blue;
 }
 
 .SCClosed {
@@ -53,5 +54,5 @@ body {
   transition: var(--TransitionVar);
   flex-grow: 1;
   height: var(--AppHeight);
-  width: 100%;
+  width: calc(100% - 22.5em);
 }
