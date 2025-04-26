@@ -4,15 +4,15 @@ const baseURL = "";
 
 /*
     Canvas{
-        'user_id' : user_id_val,
-        'folder_id' : folder_id_val, 
-        'image_data' : image_data_bytes_val, 
-        'filename' : filename_val
+        'user_id' : id_val
+        'layout' : json_layout_val
+        'title' : title_val
     }
 
     Folder{
         'user_id': user_id_val,
         'name': folder_name_val,
+        'favorite': true/false, (optional)
         'parent_folder_id': parent_folder_id_val (optional)
     }
 
@@ -20,7 +20,8 @@ const baseURL = "";
         'user_id' : user_id_val,
         'folder_id' : folder_id_val,
         'title' : title_val,
-        'content' : content_val
+        'content' : content_val,
+        'favorite' : true/false (optional)
     }
 */
 

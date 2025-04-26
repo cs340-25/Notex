@@ -3,6 +3,8 @@ from db_connection.connection import Conn
 from db_connection.insert import insert_user_data
 from db_connection.utils import get_user_id
 from db_connection.read import read_user_data
+from db_connection.delete import delete_user_data
+import bcrypt
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -13,17 +15,16 @@ mock_user_store = {}
 def get_user():
     username = request.args.get('username')
     password = request.args.get('password')
-
     if not username or not password:
         return jsonify({"error": "Username and password are required"}), 400
     
     db_connection = Conn()
     conn = db_connection.conn
     cursor = conn.cursor()
-
     try:
-        user = read_user_data(cursor, conn, {'username': username})
-        if user and user['password'] == password:
+        user_id = get_user_id(cursor, username)
+        user = read_user_data(cursor, conn, {'user_id': user_id})
+        if user and bcrypt.hashpw(password.encode('utf-8'), user["password_hash"].encode('utf-8')):
             return jsonify({"message": "User authenticated", "user": user}), 200
         else:
             return jsonify({"error": "User not found or password is incorrect"}), 404
@@ -60,22 +61,28 @@ def post_user():
         db_connection.close(cursor)
 
 
-@user_bp.route('', methods=['PUT'])
-def put_user():
-    username = request.args.get('username')
-    password = request.args.get('password')
-    new_data = request.get_json()
+# @user_bp.route('', methods=['PUT'])
+# def put_user():
+#     username = request.args.get('username')
+#     password = request.args.get('password')
+#     new_data = request.get_json()
 
-    if not username or not password or not new_data:
-        return jsonify({"error": "missing required fields"}), 400
+#     if not username or not password or not new_data:
+#         return jsonify({"error": "missing required fields"}), 400
     
-    user = mock_user_store.get(username)
-    if user and user['password'] == password:
-        mock_user_store[username] = new_data
-        return jsonify({"message": "User updated", "user": mock_user_store[username]}), 200
-    else:
-        return jsonify({"error": "User not found or password is incorrect"}), 404
-    
+#     db_connection = Conn()
+#     conn = db_connection.conn
+#     cursor = conn.cursor()
+#     user_id = get_user_id(cursor, username)
+#     try:
+#         user = read_user_data(cursor, conn, {'user_id': user_id})
+#         if user and bcrypt.hashpw(password.encode('utf-8'), user["password_hash"].encode('utf-8')):
+            
+#             return jsonify({"message": "User updated", "user": user}), 200
+#         else:
+#             return jsonify({"error": "User not found or password is incorrect"}), 404
+#     finally:
+#         db_connection.close(cursor)
 
 @user_bp.route('', methods=['DELETE'])
 def delete_user():
@@ -84,10 +91,16 @@ def delete_user():
 
     if not username or not password:
         return jsonify({"error": "Username and password are required"}), 400
-    
-    user = mock_user_store.get(username)
-    if user and user['password'] == password:
-        del mock_user_store[username]
-        return jsonify({"message": "User deleted"}), 200
-    else:
-        return jsonify({"error": "User not found or password is incorrect"}), 404
+    db_connection = Conn()
+    conn = db_connection.conn
+    cursor = conn.cursor()
+    try:
+        user_id = get_user_id(cursor, username)
+        user = read_user_data(cursor, conn, {'user_id': user_id})
+        if user and bcrypt.hashpw(password.encode('utf-8'), user["password_hash"].encode('utf-8')):
+            delete_user_data(cursor, conn, {"user_id":user_id})
+            return jsonify({"message": "User deleted"}), 200
+        else:
+            return jsonify({"error": "User not found or password is incorrect"}), 404
+    finally:
+        db_connection.close(cursor)
