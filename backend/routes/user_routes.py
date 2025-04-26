@@ -20,7 +20,6 @@ def get_user():
     db_connection = Conn()
     conn = db_connection.conn
     cursor = conn.cursor()
-
     try:
         user = read_user_data(cursor, conn, {'username': username})
         if user and user['password'] == password:

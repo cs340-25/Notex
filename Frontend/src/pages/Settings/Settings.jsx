@@ -52,11 +52,11 @@ function Settings() {
 
 
 
-  useEffect(() => {
-    Object.keys(customColors).forEach((key) => {
-      document.documentElement.style.setProperty(key, customColors[key]);
-    });
-  }, []); //weird autoformatting, but sets property for each key 
+  // useEffect(() => {
+  //   Object.keys(customColors).forEach((key) => {
+  //     document.documentElement.style.setProperty(key, customColors[key]);
+  //   });
+  // }, []); //weird autoformatting, but sets property for each key 
 
   return (
     <div className="SettingsCont">
