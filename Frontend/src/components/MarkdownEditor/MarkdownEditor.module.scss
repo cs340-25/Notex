@@ -8,7 +8,7 @@
   width: 90%;
   margin: 0 auto;
   padding: 1rem;
-  padding-bottom:0rem;
+  padding-bottom: 0rem;
   background-color: var(--BackgroundColor, #1e1e1e);
   display: flex;
   flex-direction: column;
@@ -32,15 +32,15 @@
 
 .markdownBody {
   background: transparent;
-  overflow-y:auto;
+  overflow-y: auto;
   //min-height: 20rem;
-  height:90vh;
+  height: 90vh;
   width: 100%;
 }
 
 .markdownTextarea {
   width: 90%;
- // min-height: 20rem;
+  // min-height: 20rem;
   height: 94%;
   max-height: 100%;
   background: transparent;
@@ -54,15 +54,21 @@
   overflow-y: auto;
 }
 
+
+
 .markdownPreview {
   width: 90%;
   min-height: 20rem;
-  height:68vh;
+  height: 68vh;
   background: transparent;
   padding: 0.75rem;
-  overflow-y: auto; /* <-- Allow scrolling inside preview */
+  overflow-y: auto;
   max-height: 100%;
+  text-align: left;
+  vertical-align: top;
+  white-space: pre-wrap;
 }
+
 .markdownFooter {
   display: fixed;
   justify-content: space-between;

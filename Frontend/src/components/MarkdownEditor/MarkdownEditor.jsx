@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
-import styles from './MarkdownEditor.module.scss'; 
+import styles from './MarkdownEditor.module.scss';
+import remarkBreaks from "remark-breaks";
+
+
 
 export default function MarkdownEditor() {
   const [title, setTitle] = useState('');
@@ -8,6 +11,8 @@ export default function MarkdownEditor() {
   const [isEditMode, setIsEditMode] = useState(true);
 
   const wordCount = markdown.trim() === '' ? 0 : markdown.trim().split(/\s+/).length;
+
+
 
   return (
     <div className={styles.markdownEditorWrapper}>
@@ -21,14 +26,22 @@ export default function MarkdownEditor() {
         {/* textarea for markdown */}
         <div className={styles.markdownBody}>
           {isEditMode && (
-            <textarea value={markdown} onChange={(e) => setMarkdown(e.target.value)}
-              placeholder="body" className={styles.markdownTextarea}
+            <textarea
+              value={markdown}
+              onChange={(e) => setMarkdown(e.target.value)}
+              placeholder="body"
+              className={styles.markdownTextarea}
             />
           )}
 
           {!isEditMode && (
             <div className={styles.markdownPreview}>
-              <ReactMarkdown>{markdown || '*Nothing to preview*'}</ReactMarkdown>
+              <ReactMarkdown
+                children={markdown || '*Nothing to preview*'}
+                skipHtml={false}
+                breaks={true}
+                remarkPlugins={[remarkBreaks]}
+              />
             </div>
           )}
         </div>
