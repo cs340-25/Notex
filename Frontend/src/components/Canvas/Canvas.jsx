@@ -9,6 +9,7 @@ const Canvas = ({ onToggleFullscreen }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 }); //   Panning position
   const [draggingItemId, setDraggingItemId] = useState(null);
   const canvasRef = useRef(null);
+  const [selectedType, setSelectedType] = useState("note");
 
   // Toggle fullscreen (collapses other grid items)
   const toggleFullscreen = () => {
@@ -21,7 +22,13 @@ const Canvas = ({ onToggleFullscreen }) => {
   const addItem = () => {
     const newItem = {
       id: Date.now(),
-      content: `Item ${items.length + 1}`,
+      type: selectedType,
+      content:
+        selectedType === "note"
+          ? "New note"
+          : selectedType === "image"
+          ? "https://via.placeholder.com/150"
+          : "", // Sketch placeholder
     };
     setItems((prevItems) => [...prevItems, newItem]);
   };
@@ -129,7 +136,19 @@ const Canvas = ({ onToggleFullscreen }) => {
       <button className={styles.fullscreenBtn} onClick={toggleFullscreen}>
         {isExpanded ? "Exit Fullscreen" : "Fullscreen"}
       </button>
-      <button className={styles.addItemBtn} onClick={addItem}>+ Add Item</button>
+      <div className={styles.addItemWrapper}>
+        <div className={styles.dropdown}>
+          <select value={selectedType} onChange={(e) => setSelectedType(e.target.value)}>
+            <option value="note">Note</option>
+            <option value="image">Image</option>
+            <option value="sketch">Sketch</option>
+          </select>
+          
+        </div>
+      </div>
+      <button className={styles.addItemBtn} onClick={addItem}>Add Item</button>
+
+
       
       <div
         className={styles.canvasContent}
@@ -142,6 +161,7 @@ const Canvas = ({ onToggleFullscreen }) => {
           <CanvasItem
             key={item.id}
             id={item.id}
+            type={item.type}
             content={item.content}
             onMouseDown={(e) => handleItemMouseDown(e, item.id)} // Pass onMouseDown to CanvasItem
             onMouseUp={handleItemMouseUp} // Stop dragging when mouse is released
