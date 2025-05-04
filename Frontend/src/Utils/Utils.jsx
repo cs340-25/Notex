@@ -72,9 +72,25 @@ function FormatDataRecur(rawData, folder, user_id) {
 }
 
 function addImages(images, folder_id, user_id) {
+    let imageObjects = [];
+    images.forEach((image) => {
+        // console.log("Comparing image folder id: ", image.folder_id, " with root folder id: ", folder_id);
+        if(image.folder_id == folder_id){
+            imageObjects.push(new Image(user_id, folder_id, image.image_data, image.filename));
+        }
+    })
+    return imageObjects;
 }
 
 function addCanvas(canvas, folder_id, user_id) {
+    let canvasObjects = [];
+    canvas.forEach((canv) => {
+        // console.log("Comparing canvas folder id: ", canv.folder_id, " with root folder id: ", folder_id);
+        if(canv.folder_id == folder_id){
+            canvasObjects.push(new Canvas(user_id, folder_id, canv.layout, canv.title));
+        }
+    })
+    return canvasObjects;
 }
 
 function addFolders(folders, parent_folder_id, user_id) {
