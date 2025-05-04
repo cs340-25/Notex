@@ -16,7 +16,7 @@ import { Note, Folder, Image, Canvas } from './Models/DataTypes'
 import { formatRawData } from './Utils/Utils'
 
 function App() {
-  const {WorkspaceState, setWorkspaceState, FolderData, setFolderData} = useContext(WorkspaceContext);
+  const {WorkspaceState, setWorkspaceState, FolderData, setFolderData, rawData, setRawData} = useContext(WorkspaceContext);
   const [SidebarOpen, setSidebarOpen] = useState(true);
   const testLogin = {
     username: "testuser",
@@ -26,6 +26,7 @@ function App() {
     const fetchData = async () => {
       const data = await getData(testLogin.username);
       console.log(data);
+      setRawData(data);
       let FormatData = formatRawData(data);
       console.log(FormatData);
       setFolderData(FormatData);
@@ -35,6 +36,10 @@ function App() {
   useEffect(() => {
     console.log("Folder data: ", FolderData);
   }, [FolderData])
+
+  useEffect(() => {
+    console.log("Raw data: ", rawData);
+  },[rawData]);
   return (
     <div id="AppCont">
       <Toolbar/>

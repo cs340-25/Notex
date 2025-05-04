@@ -1,34 +1,34 @@
 import styles from './Folderbar.module.scss';
 import { BsChevronBarRight } from "react-icons/bs";
-import { Folders } from '../../FakeFolderData/Data.json'
-import { useState, useEffect } from 'react';
-import { formatRawData } from '../../Utils/Utils';
+import { useState, useEffect, use } from 'react';
 import { WorkspaceContext } from '../../Providers/WorkspaceProvider';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Folder } from '../../Models/DataTypes';
+import FBFolder from '../FBFolder/FBFolder';
+import FBNote from '../FBNote/FBNote';
+
 function Folderbar({setSidebarOpen, SidebarOpen}) {
-  // const data = Folders;
-  const {FolderData} = useContext(WorkspaceContext);
+  const {FolderData, rawData} = useContext(WorkspaceContext);
+  const [FolderDisplay, setFolderDisplay] = useState();
+  const [activeNoteID, setActiveNoteID] = useState(null);
   const navigate = useNavigate();
 
   function getNotes(folder, FolderIndex){
     return folder.notes.map((note)=>{
       return (
-        <div className={styles.noteCont} key={note.title} style={{marginLeft: `${FolderIndex*15}px`}}>
-          <p className={styles.noteName} onClick={()=>handleNoteClick(note)}>{note.title}</p>
-        </div>
+        <FBNote note={note} FolderIndex={FolderIndex} handleNoteClick={()=>handleNoteClick(note)} isOpen={activeNoteID === note.id? true: false} key={note.title}/>
       )
     })
   }
+
   function getFolder(data, FolderIndex){
-    return data.folders.map((folder) =>{
+    return data.folders.map((folder, index) =>{
       return(
-        <div className={styles.FolderCont} key={folder.name} style={{marginLeft: `${FolderIndex*15}px`}}>
-          <p className={styles.FolderName} onClick={() => handleFolderClick(folder)}>{folder.name}</p>
+        <FBFolder folder={folder} FolderIndex={FolderIndex} key={folder.name}>
           {folder.folders?getFolder(folder, FolderIndex+1):null}
           {folder.notes?getNotes(folder, FolderIndex+1):null}
-        </div>
+        </FBFolder>        
+
       )
     })
   }
@@ -37,16 +37,36 @@ function Folderbar({setSidebarOpen, SidebarOpen}) {
     setSidebarOpen((prev)=> !SidebarOpen);
   };
 
-  function handleFolderClick(folder){
-    console.log("Folder clicked: ", folder);
-  }
-  function handleNoteClick(note){
+  function handleNoteClick(note, index){
     console.log("Note clicked: ", note);
+    setActiveNoteID(note.id);
     navigate("/NoteEditor", {state: {title: note.title, markdownVal: note.content}});
   }
   useEffect(() => {
-    console.log("Folder data: ", FolderData);
-  }, [FolderData])
+    console.log("RawData: ", rawData);
+    if(FolderData && rawData){
+
+      setFolderDisplay(
+      <div className={styles.FolderSystemCont}>
+          {getFolder(FolderData, 0)}
+          {getNotes(FolderData, 0)}
+        </div>
+      );
+    }
+  }, [FolderData, rawData])
+
+  useEffect(() => {
+    console.log("Active note: ", activeNoteID);
+    if(FolderData && rawData){
+
+      setFolderDisplay(
+      <div className={styles.FolderSystemCont}>
+          {getFolder(FolderData, 0)}
+          {getNotes(FolderData, 0)}
+        </div>
+      );
+    }
+  },[activeNoteID]);
 
   if(FolderData == null){
     return (
@@ -63,10 +83,7 @@ function Folderbar({setSidebarOpen, SidebarOpen}) {
       <div id={styles.ChevronIcon} className={SidebarOpen ? styles.none : ""}>
         <BsChevronBarRight onClick={handleSidebarChange}/>
       </div>
-        <div className={styles.FolderSystemCont}>
-          {FolderData? getFolder(FolderData, 0): null}
-          {FolderData? getNotes(FolderData, 0): null}
-        </div>
+        {FolderDisplay}
     </div>
   );
 }
