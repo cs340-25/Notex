@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const baseURL = "";
+const baseURL = "http://127.0.0.1:5000";
 
 async function getAuth() {
 
 }
 
-async function getUser(username, password) {
+export async function getUser(username, password) {
     const response = await axios.get(`${baseURL}/user`,
         {
             params: {
@@ -21,7 +21,7 @@ async function getUser(username, password) {
     return response.data;
 }
 
-async function postUser(data) {
+export async function postUser(data) {
     const response = await axios.post(`${baseURL}/user`, data)
         .catch((error) => {
             console.error("Error creating user:", error);
@@ -29,7 +29,7 @@ async function postUser(data) {
     return response.data;
 }
 
-async function putUser(username, password, newData) {
+export async function putUser(username, password, newData) {
     const response = await axios.put(`${baseURL}/user`, newData, 
         {
             params: {
@@ -43,7 +43,7 @@ async function putUser(username, password, newData) {
     return response.data;
 }
 
-async function deleteUser(username, password) {
+export async function deleteUser(username, password) {
     const response = await axios.delete(`${baseURL}/user`, 
         {
             params: {

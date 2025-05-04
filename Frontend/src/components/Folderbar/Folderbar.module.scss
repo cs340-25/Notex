@@ -47,6 +47,7 @@
     margin: 0;
     padding: .25em .5em;
     border-radius: .25em;
+    text-align: start;
     &:hover{
         cursor: pointer;
         background-color: var(--PrimaryColor);
@@ -75,6 +76,7 @@
     margin: 0;
     padding: .25em .5em;
     border-radius: .25em;
+    text-align: start;
     &:hover{
         cursor: pointer;
         background-color: var(--PrimaryColor);

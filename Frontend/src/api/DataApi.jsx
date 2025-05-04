@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "";
+const baseURL = "http://127.0.0.1:5000";
 
 /*
     Canvas{
@@ -25,7 +25,7 @@ const baseURL = "";
     }
 */
 
-async function getData(username) {
+export async function getData(username) {
     const response = await axios.get(`${baseURL}/data`, {
         params: {
             username: username
@@ -37,7 +37,7 @@ async function getData(username) {
     return response.data;
 }
 
-async function postData(username, data) {
+export async function postData(username, data) {
     const response = await axios.post(`${baseURL}/data`, data, {
         params: {
             username: username
@@ -49,7 +49,7 @@ async function postData(username, data) {
     return response.data;
 }
 
-async function putData(username, password, data) {
+export async function putData(username, password, data) {
     const response = await axios.put(`${baseURL}/data`, data, {
         params: {
             username: username,
@@ -61,7 +61,7 @@ async function putData(username, password, data) {
     return response.data;
 }
 
-async function deleteData(username, password, data) {
+export async function deleteData(username, password, data) {
     const response = await axios.delete(`${baseURL}/data`, data,{
         params: {
             username: username,

@@ -211,3 +211,90 @@ def read_note_data(cursor, conn, data):
         conn.rollback()
         print(f"Database error: {e}")
         return False
+
+def read_all_user_data(cursor, conn, user_id):
+    '''
+    Args: 
+    psycopg2 cursor for accessing database
+    conn: psycopg2 connection to commit the transaction
+    data: contains a user_id as follows:
+    
+    {
+    'user_id' : user_id_val
+    }
+    '''
+    try:
+        # Fetch user data
+        cursor.execute("SELECT id, username, created_at, password_hash FROM users WHERE id = %s", (user_id,))
+        user_data = cursor.fetchone()
+        if not user_data:
+            print(f"User with ID {user_id} not found.")
+            return None
+
+        result = {
+            'user': {
+                'id': user_data[0],
+                'username': user_data[1],
+                'created_at': user_data[2].strftime('%Y-%m-%d %H:%M:%S'),
+                'password_hash': user_data[3]
+            },
+            'folders': [],
+            'notes': [],
+            'images': [],
+            'canvas': []
+        }
+
+        # Fetch folder data
+        cursor.execute("SELECT id, name, created_at, favorite, parent_folder_id FROM folders WHERE user_id = %s", (user_id,))
+        folders = cursor.fetchall()
+        for folder in folders:
+            result['folders'].append({
+                'id': folder[0],
+                'name': folder[1],
+                'created_at': folder[2].strftime('%Y-%m-%d %H:%M:%S'),
+                'favorite': folder[3],
+                'parent_folder_id': folder[4]
+            })
+
+        # Fetch note data
+        cursor.execute("SELECT id, folder_id, title, content, favorite, created_at FROM notes WHERE user_id = %s", (user_id,))
+        notes = cursor.fetchall()
+        for note in notes:
+            result['notes'].append({
+                'id': note[0],
+                'folder_id': note[1],
+                'title': note[2],
+                'content': note[3],
+                'favorite': note[4],
+                'created_at': note[5].strftime('%Y-%m-%d %H:%M:%S')
+            })
+
+        # Fetch image data
+        cursor.execute("SELECT id, folder_id, filename, image_data, uploaded_at FROM images WHERE user_id = %s", (user_id,))
+        images = cursor.fetchall()
+        for image in images:
+            result['images'].append({
+                'id': image[0],
+                'folder_id': image[1],
+                'filename': image[2],
+                'image_data': image[3],
+                'uploaded_at': image[4].strftime('%Y-%m-%d %H:%M:%S')
+            })
+
+        # Fetch canvas data
+        cursor.execute("SELECT id, title, layout, created_at FROM canvas WHERE user_id = %s", (user_id,))
+        canvas = cursor.fetchall()
+        for item in canvas:
+            result['canvas'].append({
+                'id': item[0],
+                'title': item[1],
+                'layout': item[2],
+                'created_at': item[3].strftime('%Y-%m-%d %H:%M:%S')
+            })
+
+        return result
+
+    except psycopg2.Error as e:
+        conn.rollback()
+        print(f"Database error: {e}")
+        return None

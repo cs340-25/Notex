@@ -1,15 +1,16 @@
 from flask import Blueprint, request, jsonify
 from db_connection.connection import Conn
-from db_connection.insert import insert_canvas_data
-from db_connection.read import read_canvas_data
-from db_connection.utils import get_user_id
-from db_connection.delete import delete_canvas_data
+from db_connection.insert import insert_canvas_data, insert_folder_data, insert_note_data, insert_image_data, insert_user_data
+
+from db_connection.read import read_all_user_data
+from db_connection.utils import get_user_id, get_folder_id
+from db_connection.delete import delete_canvas_data, delete_folder_data, delete_note_data, delete_image_data, delete_user_data
 
 data_bp = Blueprint('data', __name__, url_prefix='/data')
 
 mock_data_store = {}
 
-#! implement other data types
+
 @data_bp.route('', methods=['GET'])
 def get_data():
     username = request.args.get('username')
@@ -24,13 +25,16 @@ def get_data():
         if not user_id:
             return jsonify({"error": "User not found"}), 404
         
-        canvas = read_canvas_data(cursor, conn, {'user_id': user_id})
-        return jsonify({"data": canvas}), 200
+        data = read_all_user_data(cursor, conn, user_id)
+        if data:
+            return jsonify(data), 200
+        else:
+            return jsonify({"error": "No data found"}), 404
     
     finally:
         db_connection.close(cursor)
 
-#! implement other data types
+
 @data_bp.route('', methods=['POST'])
 def post_data():
     username = request.args.get('username')
@@ -49,8 +53,18 @@ def post_data():
             return jsonify({"error": "User not found"}), 404
         
         json_data['user_id'] = user_id
-        success = insert_canvas_data(cursor, conn, json_data)
-
+        data_type = json_data.get('type')
+        match data_type:
+            case 'note':
+                success = insert_note_data(cursor, conn, json_data)
+            case 'folder':
+                success = insert_folder_data(cursor, conn, json_data)
+            case 'canvas':
+                success = insert_canvas_data(cursor, conn, json_data)
+            case 'image':
+                success = insert_image_data(cursor, conn, json_data)
+            case _:
+                success = False
         if success:
             conn.commit()
             return jsonify({"message": "Data created", "data": json_data}), 201
@@ -60,7 +74,6 @@ def post_data():
     finally:
         db_connection.close(cursor)
 
-#! Need to implement put logic
 @data_bp.route('', methods=['PUT'])
 def put_data():
     username = request.args.get('username')
@@ -72,12 +85,29 @@ def put_data():
     
     if not username or not json_data:
         return jsonify({"error": "Username and data are required"}), 400
-    
-    if username not in mock_data_store:
-        return jsonify({"error": "Username not found"}), 404
-    
-    mock_data_store[username] = json_data
-    return jsonify({"message": "Data updated", "data": json_data}), 200
+    try:
+        user_id = get_user_id(cursor, username)
+        json_data['user_id'] = user_id
+        data_type = json_data.get('type')
+        match data_type:
+            case 'note':
+                success = insert_note_data(cursor, conn, json_data)
+            case 'folder':
+                success = insert_folder_data(cursor, conn, json_data)
+            case 'canvas':
+                success = insert_canvas_data(cursor, conn, json_data)
+            case 'image':
+                success = insert_image_data(cursor, conn, json_data)
+            case _:
+                success = False
+        if success:
+            conn.commit()
+            return jsonify({"message": "Data Updated", "data": json_data}), 201
+        else:
+            return jsonify({"error": "Update failed"}), 500
+        
+    finally:
+        db_connection.close(cursor)
 
 
 @data_bp.route('', methods=['DELETE'])
