@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styles from './MarkdownEditor.module.scss';
 import remarkBreaks from "remark-breaks";
 
 
 
-export default function MarkdownEditor() {
+export default function MarkdownEditor({ titleVal, markdownVal }) {
   const [title, setTitle] = useState('');
   const [markdown, setMarkdown] = useState('');
   const [isEditMode, setIsEditMode] = useState(true);
 
   const wordCount = markdown.trim() === '' ? 0 : markdown.trim().split(/\s+/).length;
 
-
+  useEffect(() => {
+    console.log("Title: ", titleVal);
+    console.log("Markdown: ", markdownVal);
+    if(titleVal){
+      setTitle(titleVal);
+    }
+    if(markdownVal){
+      setMarkdown(markdownVal); 
+    }
+  },[titleVal, markdownVal]);
 
   return (
     <div className={styles.markdownEditorWrapper}>
