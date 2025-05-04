@@ -54,3 +54,8 @@ class Conn:
         
         except psycopg2.Error as e:
             raise(RuntimeError(f"Error conecting to PostgreSQL: {e}"))
+        
+if __name__ == '__main__':
+    c = Conn()
+    res = c._load_config()
+    print(res)

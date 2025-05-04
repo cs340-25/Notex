@@ -13,13 +13,25 @@ def get_user_id(cursor, username):
     result = cursor.fetchone()
     return result[0] if result else None
 
-def get_folder_id(cursor, user_id, folder_name):
+def get_canvas_id(cursor, user_id, title, folder_id = None):
+     """Retrieve the id of a canvas item."""
+     cursor.execute("SELECT id FROM canvas WHERE user_id = %s AND title = %s AND folder_id IS NOT DISTINCT FROM %s", (user_id, title, folder_id))
+     result = cursor.fetchone()
+     return result[0] if result else None
+
+def get_folder_id(cursor, user_id, folder_name, parent_folder_id = None):
     """
-    Given a user_id and folder_name, return the folder id if found, otherwise None.
+    Given a user_id and folder_name and parent_folder_name, return the folder id if found, otherwise None.
     """
-    cursor.execute("SELECT id FROM folders WHERE user_id = %s AND name = %s", (user_id, folder_name))
+    cursor.execute("SELECT id FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id IS NOT DISTINCT FROM %s", (user_id, folder_name, parent_folder_id))
     result = cursor.fetchone()
     return result[0] if result else None
+
+def get_note_id(cursor, user_id, folder_id, title):
+     """Retrieve the id of a note item"""
+     cursor.execute("SELECT id FROM notes WHERE user_id = %s AND folder_id = %s AND title = %s", (user_id, folder_id, title))
+     result = cursor.fetchone()
+     return result[0] if result else None
 
 # For more information about table structure (Current tables are users, folders, notes, images, canvas)
 def get_table_info(cursor, table_name: str):

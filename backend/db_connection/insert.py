@@ -54,12 +54,13 @@ def insert_canvas_data(cursor, conn, data):
     Args: 
     psycopg2 cursor for accessing database
     conn: psycopg2 connection to commit the transaction
-    data: contains a user_id, layout, and title as follows:
+    data: contains a user_id, layout, title, and folder id as follows:
     
     {
     'user_id' : id_val
     'layout' : json_layout_val
     'title' : title_val
+    'folder_id': id_val (optional, will default to None)
     }
       
     Returns: True or False depending on success of operation.
@@ -69,16 +70,12 @@ def insert_canvas_data(cursor, conn, data):
         if 'user_id' not in data or 'layout' not in data or 'title' not in data:
             print("Missing required fields: user_id, layout, or title")
             return False
+        
+        folder_id = data.get('folder_id', None)
 
-        cursor.execute("SELECT * FROM canvas WHERE user_id = %s AND title = %s", (data['user_id'], data['title']))
-        # Use RETURNING clause to check success of update
-        if cursor.fetchone():
-            cursor.execute("UPDATE canvas SET layout = %s WHERE user_id = %s AND title = %s", 
-                           (Json(data['layout']), data['user_id'], data['title']))
-        else: # Create new entry
-            cursor.execute("INSERT INTO canvas (user_id, layout, title) VALUES (%s, %s, %s)", 
-                        (data['user_id'], Json(data['layout']), data['title'])
-            )
+        cursor.execute("INSERT INTO canvas (user_id, layout, title, folder_id) VALUES (%s, %s, %s, %s)", 
+                    (data['user_id'], Json(data['layout']), data['title'], folder_id)
+        )
 
         query_success = cursor.rowcount
         conn.commit()
@@ -114,15 +111,9 @@ def insert_image_data(cursor, conn, data):
             print("Missing required fields: user_id, folder_id, image_data, or filename")
             return False
 
-        cursor.execute("SELECT * FROM images WHERE user_id = %s AND folder_id = %s AND filename = %s", (data['user_id'], data['folder_id'], data['filename']))
-
-        if cursor.fetchone():
-            cursor.execute("UPDATE images SET image_data = %s WHERE user_id = %s AND folder_id = %s AND filename = %s", 
-                           (psycopg2.Binary(data['image_data']), data['user_id'], data['folder_id'], data['filename']))
-        else:
-            cursor.execute("INSERT INTO images (user_id, folder_id, image_data, filename) VALUES (%s, %s, %s, %s)", 
-                        (data['user_id'], data['folder_id'], psycopg2.Binary(data['image_data']), data['filename'])
-            )
+        cursor.execute("INSERT INTO images (user_id, folder_id, image_data, filename) VALUES (%s, %s, %s, %s)", 
+                    (data['user_id'], data['folder_id'], psycopg2.Binary(data['image_data']), data['filename'])
+        )
 
         query_success = cursor.rowcount
         conn.commit()
@@ -159,18 +150,14 @@ def insert_folder_data(cursor, conn, data):
 
         # Set parent_folder_id to None if not provided
         parent_folder_id = data.get('parent_folder_id', None)
-        cursor.execute("SELECT * FROM folders WHERE user_id = %s AND name = %s AND parent_folder_id IS NOT DISTINCT FROM %s", (data['user_id'], data['name'], parent_folder_id))
 
         # Similar with favorite, default False
         favorite = data.get('favorite', False)
-        if cursor.fetchone():
-            cursor.execute("UPDATE folders SET parent_folder_id = %s, favorite = %s WHERE user_id = %s AND name = %s", 
-                           (parent_folder_id, favorite, data['user_id'], data['name']))
-        else:
-            cursor.execute(
-                "INSERT INTO folders (user_id, name, parent_folder_id, favorite) VALUES (%s, %s, %s, %s)",
-                (data['user_id'], data['name'], parent_folder_id, favorite)
-            )
+
+        cursor.execute(
+            "INSERT INTO folders (user_id, name, parent_folder_id, favorite) VALUES (%s, %s, %s, %s)",
+            (data['user_id'], data['name'], parent_folder_id, favorite)
+        )
         
         query_success = cursor.rowcount
         conn.commit()
@@ -206,17 +193,11 @@ def insert_note_data(cursor, conn, data):
             print("Missing required fields: user_id, folder_id, title, or content")
             return False
 
-        cursor.execute("SELECT * FROM notes WHERE user_id = %s AND folder_id = %s AND title = %s", (data['user_id'], data['folder_id'], data['title']))
-
         favorite = data.get('favorite', False)
 
-        if cursor.fetchone():
-            cursor.execute("UPDATE notes SET content = %s, favorite = %s WHERE user_id = %s AND folder_id = %s AND title = %s", 
-                           (data['content'], favorite, data['user_id'], data['folder_id'], data['title']))
-        else:
-            cursor.execute("INSERT INTO notes (user_id, folder_id, title, content, favorite) VALUES (%s, %s, %s, %s, %s)", 
-                        (data['user_id'], data['folder_id'], data['title'], data['content'], favorite)
-            )
+        cursor.execute("INSERT INTO notes (user_id, folder_id, title, content, favorite) VALUES (%s, %s, %s, %s, %s)", 
+                    (data['user_id'], data['folder_id'], data['title'], data['content'], favorite)
+        )
 
         query_success = cursor.rowcount
         conn.commit()
