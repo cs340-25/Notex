@@ -152,7 +152,6 @@ def delete_note_data(cursor, conn, data):
         cursor.execute("DELETE FROM notes WHERE user_id = %s AND folder_id = %s AND title = %s", (data['user_id'], data['folder_id'], data['title']))
         query_success = cursor.rowcount
         conn.commit()
-
         return query_success > 0
 
     except psycopg2.Error as e:

@@ -110,8 +110,22 @@ function addNotes(notes, folder_id, user_id) {
     notes.forEach((note) => {
         // console.log("Comparing note folder id: ", note.folder_id, " with root folder id: ", folder_id);
         if(note.folder_id == folder_id){
-            noteObjects.push(new Note(user_id, folder_id, note.title, note.content, note.favorite));
+            noteObjects.push(new Note(user_id, note.id, note.title, note.content, note.favorite, folder_id));
         }
     })
     return noteObjects;
 }
+
+export function getFarthestAncestor(element, selector) {
+    let current = element;
+    let farthestMatch = null;
+  
+    while (current) {
+      if (current.matches && current.matches(selector)) {
+        farthestMatch = current; // keep updating until the top
+      }
+      current = current.parentElement;
+    }
+  
+    return farthestMatch;
+  }
