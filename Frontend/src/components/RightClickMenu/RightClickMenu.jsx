@@ -3,7 +3,7 @@ import { WorkspaceContext } from '../../Providers/WorkspaceProvider';
 import { useContext, useEffect, useState } from 'react';
 import { getNoteID, getFolderID, getData, postData, deleteData } from '../../api/DataApi';
 import { Folder, Note, Image, Canvas } from '../../Models/DataTypes'
-import { formatRawData } from '../../Utils/Utils';
+
 function RightClickMenu({ x, y, show, SelectedID, DeleteObj }) {
     const [SelectedFolder, setSelectedFolder] = useState(null);
     const { setFolderData, rawData, setRawData } = useContext(WorkspaceContext);
@@ -17,14 +17,16 @@ function RightClickMenu({ x, y, show, SelectedID, DeleteObj }) {
         }
     },[rawData, show]);
     
+
     async function handleRightClickMenuClick(e) {
+        e.preventDefault();
         const option = e.target.innerText;
         if (option === "Add Note") {
-            const newNote = new Note(19, null, "Untitled Note", "This is a test note", false, SelectedID);
+            const newNote = new Note(19, -1, "Untitled Note", "This is a test note", false, SelectedID);            
+
             const response = await postData("testuser", newNote.toJSONInsert());
             const noteID = await getNoteID("testuser", SelectedID, "Untitled Note");
             newNote.id = noteID;
-            console.log("Note ID: ", noteID);
             setRawData((prev) => {
                 const updatedNotes = [...prev.notes, newNote];
                 return { ...prev, notes: updatedNotes };
@@ -36,15 +38,18 @@ function RightClickMenu({ x, y, show, SelectedID, DeleteObj }) {
             console.log(SelectedFolder.name, "Add Note clicked");
         } else if (option === "Add Folder") {
 
-            const newFolder = new Folder(19, null, "Untitled Folder", false, SelectedID);
+            const newFolder = new Folder(19, -1, "Untitled Folder", false, SelectedID);
+            
             const response = await postData("testuser", newFolder.toJSONInsert());
             const folderID = await getFolderID("testuser", "Untitled Folder", SelectedID);
             newFolder.id = folderID;
-            console.log("Folder ID: ", folderID);
+
             setRawData((prev) => {
                 const updatedFolders = [...prev.folders, newFolder];
                 return { ...prev, folders: updatedFolders };
             });
+
+            console.log("Folder ID: ", folderID);
             if (response) {
                 console.log("Folder added successfully:", response);
             }
@@ -52,29 +57,27 @@ function RightClickMenu({ x, y, show, SelectedID, DeleteObj }) {
         } else if (option === "Delete") {
             const deleteObj = getDeleteObj(DeleteObj);
             if(DeleteObj.type === "folder"){
-                console.log("Delete folder clicked: ", DeleteObj.deleteID);
-
-                const response = await deleteData("testuser", deleteObj.toJSONDelete());
                 setRawData((prev) => {
                     const updatedFolders = prev.folders.filter((folder) => folder.id !== deleteObj.id);
                     return { ...prev, folders: updatedFolders };
                 });
-                console.log("Folder deleted successfully:", response);
+
+                const response = await deleteData("testuser", deleteObj.toJSONDelete());
+                if(response) {
+                    console.log("Folder deleted successfully:", response);
+                }
             }
             else if(DeleteObj.type === "note"){
                 console.log("Delete note clicked: ", DeleteObj.deleteID);
-                const response = await deleteData("testuser", deleteObj.toJSONDelete());
                 setRawData((prev) => {
                     const updatedNotes = prev.notes.filter((note) => note.id !== deleteObj.id);
                     return { ...prev, notes: updatedNotes };
                 });
+                const response = await deleteData("testuser", deleteObj.toJSONDelete());
                 if (response) {
                     console.log("Note deleted successfully:", response);
                 }
             }
-            console.log(DeleteObj, "Delete clicked");
-
-
         }
     }
 

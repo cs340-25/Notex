@@ -40,7 +40,7 @@ function Folderbar({setSidebarOpen, SidebarOpen}) {
   function handleNoteClick(note, index){
     console.log("Note clicked: ", note);
     setActiveNoteID(note.id);
-    navigate("/NoteEditor", {state: {title: note.title, markdownVal: note.content}});
+    navigate("/NoteEditor", {state: {title: note.title, markdownVal: note.content, noteID: note.id, folderID: note.folder_id, favorite: note.favorite}});
   }
   useEffect(() => {
     console.log("RawData: ", rawData);

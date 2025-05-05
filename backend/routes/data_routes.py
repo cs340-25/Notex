@@ -137,7 +137,6 @@ def put_data():
         return jsonify({"error": "Username and data are required"}), 400
     try:
         # user_id = get_user_id(cursor, username)
-        # json_data['user_id'] = user_id
         data_type = json_data.get('type')
         match data_type:
             case 'note':

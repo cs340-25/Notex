@@ -78,7 +78,7 @@ export async function postData(username, data) {
     return response.data;
 }
 
-export async function putData(username, password, data) {
+export async function putData(username, data) {
     const response = await axios.put(`${baseURL}/data`, data, {
         params: {
             username: username,

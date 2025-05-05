@@ -63,6 +63,7 @@ function FormatDataRecur(rawData, folder, user_id) {
     folder.images = imageObjects;
     folder.canvas = canvasObjects;
     if(folder.folders.length != 0){
+        console.log("Folder: ", folder.name, " has subfolders: ", folder.folders.map((subfolder) => subfolder.name));
         folder.folders.forEach((subfolder) => {
             FormatDataRecur(rawData, subfolder, user_id);
         });
