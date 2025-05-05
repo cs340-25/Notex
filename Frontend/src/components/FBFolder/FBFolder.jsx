@@ -9,10 +9,10 @@ function FBFolder({ folder, FolderIndex, children}) {
     const [isOpen, setIsOpen] = useState(true);
     const [childFolders, childNotes] = children;
     const [childrenState, setChildrenState] = useState(false);
- 
+    // console.log("Folder: ", folder)
     useEffect(() => {
         if(childFolders.length > 0 || childNotes.length > 0){
-            console.log("Folder: ", folder.name,"Children exist: ", childFolders, childNotes);
+            // console.log("Folder: ", folder.name,"Children exist: ", childFolders, childNotes);
             setChildrenState(true);
         }else{
             setChildrenState(false);
@@ -23,7 +23,7 @@ function FBFolder({ folder, FolderIndex, children}) {
         setIsOpen((prev) => !prev);
     }
     return (
-        <div className={`${styles.FolderCont} ${(isOpen && childrenState)? styles.open: ""}`}  key={folder.name} style={{marginLeft: `${FolderIndex*15}px`}}>
+        <div folder={folder} data-folder-id={folder.id} className={`FolderContainer ${styles.FolderCont} ${(isOpen && childrenState)? styles.open: ""}`}  key={folder.name} style={{marginLeft: `${FolderIndex*15}px`}}>
             <div className={styles.FolderName} onClick={handleFolderClick}>
                 <div className={styles.ArrowIcon}>
                     {isOpen?<IoChevronDownOutline/>:<IoChevronForward/>}

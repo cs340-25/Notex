@@ -12,17 +12,39 @@ import { WorkspaceContext } from './Providers/WorkspaceProvider'
 import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from 'react-router-dom'
 import './App.scss'
 import { getData } from './api/DataApi'
-import { Note, Folder, Image, Canvas } from './Models/DataTypes'
 import { formatRawData } from './Utils/Utils'
+import RightClickMenu from './components/RightClickMenu/RightClickMenu'
 
 function App() {
   const {WorkspaceState, setWorkspaceState, FolderData, setFolderData, rawData, setRawData} = useContext(WorkspaceContext);
   const [SidebarOpen, setSidebarOpen] = useState(true);
+  const [RightClickMenuOpt, setRightClickMenuOpt] = useState({x: 0, y: 0, show: false});
+  const [SelectedFolderID, setSelectedFolderID] = useState(null);
   const testLogin = {
     username: "testuser",
     password: "testpass"
   }
   useEffect(() => {
+    
+  }, []);
+  
+  useEffect(() => {
+    const showMenu = (e) => {
+      if(e.target.closest("[data-folder-id]")){
+        const folderID = e.target.closest("[data-folder-id]").getAttribute("data-folder-id");
+        console.log("Folder ID: ", folderID);
+        setSelectedFolderID(folderID);
+      }
+      e.preventDefault();
+      setRightClickMenuOpt({ x: e.pageX, y: e.pageY, show: true });
+    };
+  
+    const hideMenu = () => setRightClickMenuOpt({ ...RightClickMenuOpt, show: false });
+  
+    window.addEventListener("contextmenu", showMenu);
+    window.addEventListener("click", hideMenu);
+    
+
     const fetchData = async () => {
       const data = await getData(testLogin.username);
       console.log(data);
@@ -32,17 +54,27 @@ function App() {
       setFolderData(FormatData);
     };
     fetchData();
-  },[])
-  useEffect(() => {
-    console.log("Folder data: ", FolderData);
-  }, [FolderData])
 
-  useEffect(() => {
-    console.log("Raw data: ", rawData);
-  },[rawData]);
+    return () => {
+      window.removeEventListener("contextmenu", showMenu);
+      window.removeEventListener("click", hideMenu);
+    };
+  },[])
+
+  function handleRightClickMenuClick(e) {
+    console.log("Right click menu clicked", e);
+    console.log(SelectedFolderID)
+    const folder = rawData.folders.find((folder) => folder.id == SelectedFolderID);
+    if(folder){
+      console.log("Folder: ", folder);
+    }
+  }
   return (
     <div id="AppCont">
       <Toolbar/>
+        <div className="RightClickMenu">
+          <RightClickMenu x={RightClickMenuOpt.x} y={RightClickMenuOpt.y} show={RightClickMenuOpt.show} onClick={handleRightClickMenuClick} SelectedID={SelectedFolderID}/>
+        </div>
       <div id="App">
         <div className={`SideColumn ${SidebarOpen ? "" : "SCClosed"}`}>
           <Sidebar SidebarOpen={SidebarOpen} setSidebarOpen={setSidebarOpen}/>

@@ -1,11 +1,10 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, Menu } = require("electron");
 const path = require("path");
 
 let mainWindow;
 
 app.whenReady().then(() => {
     ipcMain.handle('ping', () => 'pong')
-
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 1000,
@@ -16,11 +15,10 @@ app.whenReady().then(() => {
         nodeIntegration: false,
         contextIsolation: true,
         enableRemoteModule: false,
-        preload: path.join(__dirname, 'preload.js')
+        preload: path.join(__dirname, 'preload.js'),
         },
     });
 
-    
     
     // Open window if none are open
     app.on('activate', () => {
