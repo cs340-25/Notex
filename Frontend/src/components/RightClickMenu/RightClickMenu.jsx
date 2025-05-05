@@ -55,13 +55,21 @@ function RightClickMenu({ x, y, show, SelectedID, DeleteObj }) {
                 console.log("Delete folder clicked: ", DeleteObj.deleteID);
 
                 const response = await deleteData("testuser", deleteObj.toJSONDelete());
+                setRawData((prev) => {
+                    const updatedFolders = prev.folders.filter((folder) => folder.id !== deleteObj.id);
+                    return { ...prev, folders: updatedFolders };
+                });
                 console.log("Folder deleted successfully:", response);
             }
             else if(DeleteObj.type === "note"){
                 console.log("Delete note clicked: ", DeleteObj.deleteID);
                 const response = await deleteData("testuser", deleteObj.toJSONDelete());
+                setRawData((prev) => {
+                    const updatedNotes = prev.notes.filter((note) => note.id !== deleteObj.id);
+                    return { ...prev, notes: updatedNotes };
+                });
                 if (response) {
-                    console.log("Folder deleted successfully:", response);
+                    console.log("Note deleted successfully:", response);
                 }
             }
             console.log(DeleteObj, "Delete clicked");
