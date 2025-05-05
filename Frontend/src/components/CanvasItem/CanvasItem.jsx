@@ -27,6 +27,7 @@ const CanvasItem = ({ id, content, onMouseDown, onDelete, position, scale }) => 
           ✕
         </button>
         {content}
+        
       </div>
     </Rnd>
   );
