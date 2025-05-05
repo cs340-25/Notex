@@ -23,7 +23,7 @@ function FBFolder({ folder, FolderIndex, children}) {
         setIsOpen((prev) => !prev);
     }
     return (
-        <div folder={folder} data-folder-id={folder.id} className={`FolderContainer ${styles.FolderCont} ${(isOpen && childrenState)? styles.open: ""}`}  key={folder.name} style={{marginLeft: `${FolderIndex*15}px`}}>
+        <div type={"folder"} folder={folder} data-folder-id={folder.id} delete-id={folder.id} className={`FolderContainer ${styles.FolderCont} ${(isOpen && childrenState)? styles.open: ""}`}  key={folder.name} style={{marginLeft: `${FolderIndex*15}px`}}>
             <div className={styles.FolderName} onClick={handleFolderClick}>
                 <div className={styles.ArrowIcon}>
                     {isOpen?<IoChevronDownOutline/>:<IoChevronForward/>}

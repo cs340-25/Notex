@@ -1,20 +1,31 @@
 export class Note {
-  constructor(user_id, id, title, content, favorite = false) {
+  constructor(user_id, id=null, title, content, favorite = false, folder_id = null) {
     this.user_id = user_id;
     this.id = id;
     this.title = title;
     this.content = content;
     this.favorite = favorite;
+    this.folder_id = folder_id;
     this.type = "note";
   }
 
-  toJSON() {
+
+  toJSONInsert() {
     return {
         user_id: this.user_id,
-        id: this.id,
+        folder_id: this.folder_id,
         title: this.title,
         content: this.content,
         favorite: this.favorite,
+        type: this.type,
+    };
+  }
+
+  toJSONDelete(){
+    return {
+        user_id: this.user_id,
+        folder_id: this.folder_id,
+        title: this.title,
         type: this.type,
     };
   }
@@ -34,14 +45,22 @@ export class Folder {
     this.canvas = [];
   }
 
-  toJSON() {
+  toJSONInsert() {
     return {
       user_id: this.user_id,
-      folder_id: this.folder_id,
       name: this.name,
       favorite: this.favorite,
       parent_folder_id: this.parent_folder_id,
-        type: this.type,
+      type: this.type,
+    };
+  }
+
+  toJSONDelete() {
+    return {
+      user_id: this.user_id,
+      name: this.name,
+      parent_folder_id: this.parent_folder_id,
+      type: this.type,
     };
   }
 }

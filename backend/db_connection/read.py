@@ -253,7 +253,7 @@ def read_all_user_data(cursor, conn, user_id):
                 'name': folder[1],
                 'created_at': folder[2].strftime('%Y-%m-%d %H:%M:%S'),
                 'favorite': folder[3],
-                'parent_folder_id': folder[4]
+                'parent_folder_id': folder[4],
             })
 
         # Fetch note data
@@ -266,7 +266,9 @@ def read_all_user_data(cursor, conn, user_id):
                 'title': note[2],
                 'content': note[3],
                 'favorite': note[4],
-                'created_at': note[5].strftime('%Y-%m-%d %H:%M:%S')
+                'created_at': note[5].strftime('%Y-%m-%d %H:%M:%S'),
+                
+                
             })
 
         # Fetch image data

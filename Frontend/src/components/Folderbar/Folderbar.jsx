@@ -16,7 +16,7 @@ function Folderbar({setSidebarOpen, SidebarOpen}) {
   function getNotes(folder, FolderIndex){
     return folder.notes.map((note)=>{
       return (
-        <FBNote note={note} FolderIndex={FolderIndex} handleNoteClick={()=>handleNoteClick(note)} isOpen={activeNoteID === note.id? true: false} key={note.title}/>
+        <FBNote note={note} FolderIndex={FolderIndex} handleNoteClick={()=>handleNoteClick(note)} isOpen={activeNoteID === note.id? true: false} key={note.title + note.id}/>
       )
     })
   }
@@ -40,7 +40,7 @@ function Folderbar({setSidebarOpen, SidebarOpen}) {
   function handleNoteClick(note, index){
     console.log("Note clicked: ", note);
     setActiveNoteID(note.id);
-    navigate("/NoteEditor", {state: {title: note.title, markdownVal: note.content}});
+    navigate("/NoteEditor", {state: {title: note.title, markdownVal: note.content, noteID: note.id, folderID: note.folder_id, favorite: note.favorite}});
   }
   useEffect(() => {
     console.log("RawData: ", rawData);
@@ -79,7 +79,7 @@ function Folderbar({setSidebarOpen, SidebarOpen}) {
 
   }
   return (
-    <div className={styles.FolderbarCont}>
+    <div is-root={FolderData.id} className={styles.FolderbarCont}>
       <div id={styles.ChevronIcon} className={SidebarOpen ? styles.none : ""}>
         <BsChevronBarRight onClick={handleSidebarChange}/>
       </div>
