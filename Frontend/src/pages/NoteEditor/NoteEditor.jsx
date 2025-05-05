@@ -13,8 +13,6 @@ const NotesEditor = () => {
   const titleVal = location.state?.title;
   const markdownVal = location.state?.markdownVal;
   useEffect(() => {
-      // console.log("Title: ", titleVal);
-      // console.log("Markdown: ", markdownVal);
     if(titleVal){
       setTitle(titleVal);
     }
@@ -22,12 +20,6 @@ const NotesEditor = () => {
       setMarkdown(markdownVal); 
     }
   },[titleVal, markdownVal]);
-
-  useEffect(() => {
-    console.log("Markdown: ", markdown);
-    console.log("Title: ", title);
-
-  }, [markdown, title]);
 
   return (
     <div className={`${isCanvasExpanded ? "canvas-fullscreen" : "notes-editor-container"}`}>

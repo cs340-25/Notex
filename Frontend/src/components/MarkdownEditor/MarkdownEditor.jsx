@@ -13,8 +13,6 @@ export default function MarkdownEditor({ titleVal, markdownVal }) {
   const wordCount = markdown.trim() === '' ? 0 : markdown.trim().split(/\s+/).length;
 
   useEffect(() => {
-    console.log("Title: ", titleVal);
-    console.log("Markdown: ", markdownVal);
     if(titleVal){
       setTitle(titleVal);
     }
