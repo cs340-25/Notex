@@ -1,0 +1,25 @@
+.rightClickMenu{
+    position: absolute;
+    z-index: 9999;
+    background-color: var(--TertiaryColor);
+    color: var(--PrimaryTextColor);
+    border-radius: 0.5em;
+    width: fit-content;
+    height: fit-content;
+    padding: 0.5em 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.menuList{
+    width: 100%;
+    height: fit-content;
+}
+
+.menuItem{
+    &:hover{
+        background-color: var(--SecondaryTextColor);
+        cursor: pointer;
+    }
+    padding: 0.5em 1em;
+    text-align: left;
+}

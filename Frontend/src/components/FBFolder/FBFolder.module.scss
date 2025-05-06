@@ -1,0 +1,44 @@
+.FolderCont{
+    position: relative; 
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: .1em;
+    position: relative;
+}
+
+.FolderName{
+    display: flex;
+    flex-direction: row;
+    gap: .25em;
+    align-items: center;
+    
+    margin: 0;
+    padding: .25em .5em;
+    border-radius: .25em;
+    text-align: start;
+    &:hover{
+        cursor: pointer;
+        background-color: var(--PrimaryColor);
+    }
+
+}
+
+.ArrowIcon{
+    position: absolute;
+    top: .25em;
+    left: -.9em;
+}
+
+.open{
+    &::before{
+        content: '';
+        width: 2px;
+        height: calc(100% - 1.5em);
+        background-color: var(--PrimaryColor);
+        position: absolute;
+        bottom: 0;
+        border-radius: 1em 0 0 1em;
+        left: -.5em;
+    }
+}

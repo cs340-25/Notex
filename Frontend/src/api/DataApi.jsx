@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "";
+const baseURL = "http://127.0.0.1:5000";
 
 /*
     Canvas{
@@ -25,7 +25,7 @@ const baseURL = "";
     }
 */
 
-async function getData(username) {
+export async function getData(username) {
     const response = await axios.get(`${baseURL}/data`, {
         params: {
             username: username
@@ -37,7 +37,36 @@ async function getData(username) {
     return response.data;
 }
 
-async function postData(username, data) {
+export async function getNoteID(username, folder_id, title) {
+    const response = await axios.get(`${baseURL}/data/noteid`, {
+        params: {
+            username: username,
+            folder_id: folder_id,
+            title: title
+        }
+    })
+        .catch((error) => {
+            console.error("Error fetching note ID:", error);
+        });
+    return response.data;
+}
+
+export async function getFolderID(username, folder_name, parent_folder_id) {
+    const response = await axios.get(`${baseURL}/data/folderid`, {
+        params: {
+            username: username,
+            folder_name: folder_name,
+            parent_folder_id: parent_folder_id
+        }
+    })
+        .catch((error) => {
+            console.error("Error fetching folder ID:", error);
+        });
+    return response.data;
+
+}
+
+export async function postData(username, data) {
     const response = await axios.post(`${baseURL}/data`, data, {
         params: {
             username: username
@@ -49,7 +78,7 @@ async function postData(username, data) {
     return response.data;
 }
 
-async function putData(username, password, data) {
+export async function putData(username, data) {
     const response = await axios.put(`${baseURL}/data`, data, {
         params: {
             username: username,
@@ -61,10 +90,15 @@ async function putData(username, password, data) {
     return response.data;
 }
 
-async function deleteData(username, password, data) {
-    const response = await axios.delete(`${baseURL}/data`, data,{
+export async function deleteData(username, data) {
+    const response = await axios.delete(`${baseURL}/data`,{
         params: {
             username: username,
+            name: data.name? data.name : null,
+            parent_folder_id: data.parent_folder_id? data.parent_folder_id : null,
+            folder_id: data.folder_id? data.folder_id : null,
+            title: data.title? data.title : null,
+            type: data.type,
         }
     })
         .catch((error) => {

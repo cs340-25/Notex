@@ -1,19 +1,81 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styles from './MarkdownEditor.module.scss';
 import remarkBreaks from "remark-breaks";
+import { putData } from '../../api/DataApi';
+import { WorkspaceContext } from '../../Providers/WorkspaceProvider';
+import { Note } from '../../Models/DataTypes';
 
 
-
-export default function MarkdownEditor() {
+export default function MarkdownEditor({ titleVal, markdownVal, noteid, folderid, favorite }) {
+  const { rawData, setRawData } = useContext(WorkspaceContext);
   const [title, setTitle] = useState('');
   const [markdown, setMarkdown] = useState('');
+  const [noteID, setNoteID] = useState(-1);
+  const [folderID, setFolderID] = useState(-1);
   const [isEditMode, setIsEditMode] = useState(true);
 
   const wordCount = markdown.trim() === '' ? 0 : markdown.trim().split(/\s+/).length;
 
+  useEffect(() => {
+    if(titleVal){
+      setTitle(titleVal);
+    }
+    if(markdownVal){
+      setMarkdown(markdownVal); 
+    }
+    if(noteid){
+      setNoteID(noteid);
+    }
+    if(folderid){
+      setFolderID(folderid);
+    }
+
+  },[titleVal, markdownVal, noteid, folderid]);
+
+  useEffect(() => {
+    setIsEditMode(true);
+  },[noteid, folderid]);
+
+  
+  async function saveData() {
+
+    const data = {
+      username: "testuser",
+      user_id: rawData.user.id,
+      note_id: noteID,
+      folder_id: folderID,
+      favorite: false,
+      title: title,
+      content: markdown,
+      type: "note"
+    };
+    console.log("Data to be saved:", data);
+    const response = await putData("testuser", data);
+    if (response) {
+      setRawData((prev) => {
+        const updatedNotes = prev.notes.map((note) => {
+          if (note.id === noteid) {
+            return { ...note, title: title, content: markdown };
+          }
+          return note;
+        });
+        return { ...prev, notes: updatedNotes };
+      });
+      console.log("Data saved successfully:", response);
+    } else {
+      console.error("Error saving data:", response);
+    }
+  } 
+
+  useEffect(() => {
+    if(!isEditMode){
+      saveData(); 
+    }
+  },[isEditMode])
 
 
+  
   return (
     <div className={styles.markdownEditorWrapper}>
       <div className={styles.markdownEditor}>

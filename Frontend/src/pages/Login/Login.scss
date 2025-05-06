@@ -1,0 +1,59 @@
+.LoginCont {
+  width: 100%;
+  height: 100%;
+  background-color: var(--BackgroundColor);
+  color: var(--PrimaryTextColor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: inherit;
+}
+
+.LoginForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--FormGap, 1rem);
+  background-color: var(--SecondaryColor);
+  padding: var(--FormPadding, 2rem);
+  border-radius: var(--FormRadius, 10px);
+  box-shadow: var(--BoxShadow);
+  width: var(--FormWidth, 300px);
+  color: var(--PrimaryTextColor);
+}
+
+.LoginForm h2 {
+  text-align: center;
+  margin-bottom: var(--HeaderMarginBottom, 0.5rem);
+  font-size: var(--HeaderFontSize, 1.5rem);
+  color: var(--PrimaryTextColor);
+}
+
+.LoginForm input {
+  padding: var(--InputPadding, 0.75rem);
+  font-size: var(--InputFontSize, 1rem);
+  background-color: var(--BackgroundColor);
+  border: none;
+  border-radius: var(--InputRadius, 5px);
+  color: var(--PrimaryTextColor);
+}
+
+.LoginForm input::placeholder {
+  color: var(--SecondaryTextColor);
+}
+
+.LoginForm button {
+  padding: var(--ButtonPadding, 0.75rem);
+  font-size: var(--ButtonFontSize, 1rem);
+  background-color: var(--TertiaryColor);
+  color: var(--PrimaryTextColor);
+  border: none;
+  border-radius: var(--ButtonRadius, 5px);
+  cursor: pointer;
+  transition: var(--TransitionVar);
+}
+
+.LoginForm button:hover {
+  background-color: var(--TertiaryColorDark);
+  color: var(--PrimaryColor);
+}

@@ -1,4 +1,26 @@
-.ProfileCont{
+.ProfileCont {
     width: 100%;
     height: 100%;
-}
+    padding: 2rem;
+    background-color: var(--BackgroundColor);
+    color: var(--PrimaryTextColor);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .ProfileHeader {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .ProfileCard {
+    background-color: var(--SecondaryColor);
+    padding: 1.5rem 2rem;
+    border-radius: 10px;
+    box-shadow: var(--BoxShadow);
+    font-size: 1rem;
+    line-height: 1.75;
+    width: 100%;
+    max-width: 500px;
+  }
