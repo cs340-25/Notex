@@ -25,10 +25,7 @@ const Canvas = ({ onToggleFullscreen }) => {
       type: selectedType,
       content:
         selectedType === "note"
-          ? "New note"
-          : selectedType === "image"
-          ? "https://via.placeholder.com/150"
-          : "", // Sketch placeholder
+          ? "New note" : ""
     };
     setItems((prevItems) => [...prevItems, newItem]);
   };
