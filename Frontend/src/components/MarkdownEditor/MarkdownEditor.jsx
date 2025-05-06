@@ -17,27 +17,43 @@ export default function MarkdownEditor({ titleVal, markdownVal, noteid, folderid
 
   const wordCount = markdown.trim() === '' ? 0 : markdown.trim().split(/\s+/).length;
 
+
   useEffect(() => {
-    if(titleVal){
+    const savedTitle = localStorage.getItem('note_title');
+    const savedMarkdown = localStorage.getItem('note_markdown');
+    if (savedTitle) setTitle(savedTitle);
+    if (savedMarkdown) setMarkdown(savedMarkdown);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('note_title', title);
+  }, [title]);
+
+  useEffect(() => {
+    localStorage.setItem('note_markdown', markdown);
+  }, [markdown]);
+
+  useEffect(() => {
+    if (titleVal) {
       setTitle(titleVal);
     }
-    if(markdownVal){
-      setMarkdown(markdownVal); 
+    if (markdownVal) {
+      setMarkdown(markdownVal);
     }
-    if(noteid){
+    if (noteid) {
       setNoteID(noteid);
     }
-    if(folderid){
+    if (folderid) {
       setFolderID(folderid);
     }
 
-  },[titleVal, markdownVal, noteid, folderid]);
+  }, [titleVal, markdownVal, noteid, folderid]);
 
   useEffect(() => {
     setIsEditMode(true);
-  },[noteid, folderid]);
+  }, [noteid, folderid]);
 
-  
+
   async function saveData() {
 
     const data = {
@@ -66,16 +82,16 @@ export default function MarkdownEditor({ titleVal, markdownVal, noteid, folderid
     } else {
       console.error("Error saving data:", response);
     }
-  } 
+  }
 
   useEffect(() => {
-    if(!isEditMode){
-      saveData(); 
+    if (!isEditMode) {
+      saveData();
     }
-  },[isEditMode])
+  }, [isEditMode])
 
 
-  
+
   return (
     <div className={styles.markdownEditorWrapper}>
       <div className={styles.markdownEditor}>
