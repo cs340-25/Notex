@@ -1,16 +1,26 @@
 import React from "react";
 import { Rnd } from "react-rnd";
 import styles from "./CanvasItem.module.scss";
+import { useEffect } from "react";
 
 const CanvasItem = ({ id, type, content, onMouseDown, onDelete, position, scale }) => { // scale isn't used yet but may be for different item types
+  const createNote = () => {
+    return (
+      <div className={styles.canvasNote}>
+        
+        <textarea defaultValue={content} />
+      </div>
+    );
+  }
+
   const renderContent = () => {
     switch (type) {
       case "image":
         return <img src={content} alt="Canvas Item" style={{ maxWidth: "100%", maxHeight: "100%" }} />;
       case "note":
-        return <textarea defaultValue={content} />;
+        return createNote();
       case "sketch":
-        return <div>🖊 Sketch pad coming soon</div>; // Placeholder
+        return createNote(); // Placeholder
       default:
         return content;
     }
@@ -29,7 +39,7 @@ const CanvasItem = ({ id, type, content, onMouseDown, onDelete, position, scale 
       bounds="parent"
     >
       <div className={styles.canvasItemContent}>
-        <button
+      <button
           className={styles.deleteBtn}
           onClick={(e) => {
             e.stopPropagation();
