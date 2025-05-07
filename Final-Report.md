@@ -57,7 +57,7 @@ We would provide polling and user responses to gather data on this.
 What are customer-centric measures of success?
 User retention of the app and general user satisfaction. If the app provides the necessary utilities with a degree of ease of use, users will tend to stay with the app after downloading it.
 
-#####Technology:
+##### Technology:
 Main components of system? What do they do?
 React frontend: The user will interface with the front end to take notes and utilize the apps features. Retrieves data from backend corresponding to the user that is signed in. Flask backend: Serves data to frontend and stores data in database using http calls
 Database: PostgreSQL database hosted on Railway
